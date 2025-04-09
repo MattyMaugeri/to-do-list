@@ -27,7 +27,24 @@ function viewProjectTodos(project) {
     cardHeader.classList.add('card-header');
     cardHeader.textContent = project.title || project.textContent;
 
+    const cardContent = document.createElement('div');
+    cardContent.classList.add('card-content');
+
+    const cardInputs = document.createElement('input');
+    cardInputs.classList.add('inputs');
+    cardInputs.placeholder = 'New...';
+
+
+    const checkBox = document.createElement('input');
+    checkBox.type = 'checkbox';
+    checkBox.classList.add('checkbox');
+
+
+    cardContent.appendChild(checkBox);
+    cardContent.appendChild(cardInputs);
+
     card.appendChild(cardHeader);
+    card.appendChild(cardContent);
     content.appendChild(card);
 }
 

@@ -156,3 +156,27 @@ body {
     padding: 0.5rem;
     border-bottom: 1px solid hsl(50, 40%, 50%);
 }
+
+.card-content {
+    padding: 0.5rem;
+}
+
+.inputs {
+    margin-left: 1rem;
+    padding: 0.3em 0.5em;
+    width: 95%;
+    background: transparent;
+    border-radius: 8px;
+    border: none;
+}
+
+.inputs:hover {
+    background-color: rgba(225, 224, 216, 0.2);
+}
+
+.inputs:focus {
+    background-color: rgba(225, 224, 216, 0.3);
+    box-shadow: 0 0 0 1px hsl(46, 39%, 80%);
+    outline: none;
+    border-bottom: 1px solid hsl(50, 40%, 50%);
+}
