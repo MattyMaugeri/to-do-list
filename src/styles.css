@@ -75,7 +75,8 @@ h6 {
 /* Start Styling Below */
 
 *{
-
+    font-family: 'Merriweather', sans-serif;
+    color: hsl(50, 40%, 20%);
 }
 
 body {
@@ -85,9 +86,73 @@ body {
 }
 
 .sidebar {
+    padding: 1rem 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 40px;
     background-color: #fffaf0;
     box-shadow: 0 2px 13px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+    font-size: 2.5rem;
+    align-self: center;
+}
+
+.my-projects-list {
+    margin-top: 12px;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar > button,
+.project-list-item {
+    border-radius: 6px;
+    padding: 6px;
+}
+
+.sidebar > button {
+    border: none;
+    background-color: #fffaf0;
+}
+
+.sidebar > button:hover,
+.project-list-item:hover {
+    cursor: pointer;
+    background-color: hsl(50, 40%, 75%);
+    transition: 0.3s ease;
+}
+
+.sidebar > button.clicked {
+    background-color: hsl(50, 40%, 75%);
+    border-left: 8px solid hsl(50, 40%, 50%);
+}
+
+.project-list-item.clicked {
+    color: blue;
+}
+
+
+#add-project-btn {
+    margin-top: auto;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.card-header {
+    padding: 0.5rem;
+    border-bottom: 1px solid hsl(50, 40%, 50%);
 }

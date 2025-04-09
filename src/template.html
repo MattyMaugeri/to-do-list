@@ -4,18 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <title>To-Do List</title>
 </head>
 
 <body>
 
     <div class="sidebar">
-        <div class="heading">
-            <h1>To Do List</h1>
-            <div class="user-info">
-                User
-            </div>
-        </div>
+        <h1 class="title">To Do List</h1>
 
         <button id="view-all-projects-btn">
             View All Projects
@@ -33,15 +33,15 @@
 
     <div class="content">
 
-        <dialog id="add-project-dialog">
-            <form id="add-project-form">
-                <input type="text" id="title" name="title" placeholder="Enter Project Title">
-                <button type="submit" class="dialog-btns" id="dialog-add-btn">Add</button>
-                <button type="reset" class="dialog-btns" id="dialog-cancel-btn">Cancel</button>
-            </form>
-        </dialog>
-
     </div>
+
+    <dialog id="add-project-dialog">
+        <form id="add-project-form">
+            <input type="text" id="title" name="title" placeholder="Enter Project Title">
+            <button type="submit" class="dialog-btns" id="dialog-add-btn">Add</button>
+            <button type="reset" class="dialog-btns" id="dialog-cancel-btn">Cancel</button>
+        </form>
+    </dialog>
 
 </body>
 

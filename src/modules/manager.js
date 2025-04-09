@@ -11,8 +11,8 @@ function addProject(title) {
 }
 
 
+
 function bindEvents() {
-    console.log(myProjects);
     
 }
 
