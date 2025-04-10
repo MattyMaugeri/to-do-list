@@ -17,14 +17,9 @@ function addProjectDisplay() {
     dialog.showModal();
 }
 
-// This is where you would display the specific todos of that project in the content div
-function viewProjectTodos(project) {
-
-    console.log(project);
-    
+function createCard(project) {
     const card = document.createElement('div');
     card.classList.add('card');
-    card.id = project.split(' ').join('').toLowerCase();
 
     const cardHeader = document.createElement('h3');
     cardHeader.classList.add('card-header');
@@ -32,6 +27,7 @@ function viewProjectTodos(project) {
 
     const cardContent = document.createElement('div');
     cardContent.classList.add('card-content');
+    cardContent.id = project;
 
     // const addTodoBtn = document.createElement('button');
     // addTodoBtn.id = 'add-todo-btn';
@@ -42,14 +38,41 @@ function viewProjectTodos(project) {
     card.appendChild(cardHeader);
     card.appendChild(cardContent);
     content.appendChild(card);
+
+    viewProjectTodos(project);
+}
+
+// This is where you would display the specific todos of that project in the content div
+function viewProjectTodos(project) {
+    const cardContentDiv = document.getElementById(project);
+    const ul = document.createElement('ul');
+    ul.classList.add('todo-list');
+
+    Manager.tasks[project].forEach(todo => {
+        const li = document.createElement('li');
+        li.classList.add('todo-list-item');
+        li.textContent = todo.description;
+
+        const dateSpan =  document.createElement('span');
+        dateSpan.textContent = todo.dueDate;
+
+        const prioritySpan =  document.createElement('span');
+        prioritySpan.textContent = todo.priority;
+
+        li.appendChild(dateSpan);
+        li.appendChild(prioritySpan);
+        ul.appendChild(li);
+    });
+
+    cardContentDiv.appendChild(ul);
 }
 
 function viewAllProjects() {
+    // Clear content first
     content.textContent = '';
 
     for (const project in Manager.tasks) {
-        viewProjectTodos(project);
-        
+        createCard(project);
     }
 
 }
@@ -61,25 +84,15 @@ unorderedListDiv.classList.add('my-projects-list');
 projectDiv.appendChild(unorderedListDiv);
 
 function renderProjects() {
-    // Refresh the content
+    // Clear content first
     unorderedListDiv.textContent = '';
 
     for (const project in Manager.tasks) {
         const listItem = document.createElement('li');
         listItem.classList.add('project-list-item');
-        listItem.id = project.split(' ').join('').toLowerCase();
         listItem.textContent = project;
         unorderedListDiv.appendChild(listItem);
     }
-}
-
-// A list of forms need to be created ?
-
-const cardDiv = document.querySelector('.card');
-const cardContentDiv = document.querySelector('.card-content');
-function renderTodos() {
-
-
 }
 
 
@@ -89,7 +102,9 @@ function bindEvents() {
     // listener to call method to display specific todos for the clicked on project
     unorderedListDiv.addEventListener('click', (e) => {
         content.textContent = '';
-        viewProjectTodos(e.target.innerHTML);        
+        createCard(e.target.innerHTML);
+        console.log(e.target);
+
     });
 
 

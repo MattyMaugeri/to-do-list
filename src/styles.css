@@ -177,3 +177,14 @@ body {
 
 #add-todo-form > * {
 }
+
+.todo-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.todo-list-item {
+    display: flex;
+    justify-content: space-between;
+}

@@ -13,7 +13,3 @@ Manager.bindEvents();
 // Manager.addProject('Project One');
 // Manager.addProject('Project Two');
 UI.renderProjects();
-
-
-
-Manager.addTodo('Clean shelves', '12/05/2025', 'Medium');

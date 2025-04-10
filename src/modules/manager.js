@@ -7,7 +7,7 @@ const tasks = {
     'Project One': [
         {
             description: 'Clean something',
-            duDate: '12/05/2025',
+            dueDate: '12/05/2025',
             priority: 'Low',
             completed: false
         },
@@ -15,7 +15,7 @@ const tasks = {
     'Project Two': [
         {
             description: 'Eat more',
-            duDate: '69/69/6999',
+            dueDate: '69/69/6999',
             priority: 'High',
             completed: false
         },
@@ -26,7 +26,14 @@ const tasks = {
 
 
 function addProject(title) {
-    tasks[title] = {};
+    tasks[title] = [
+        {
+            description: '',
+            duDate: '',
+            priority: '',
+            completed: false,
+        }
+    ]
 }
 
 function addTodo(description, duDate, priority) {
