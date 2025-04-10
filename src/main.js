@@ -10,7 +10,10 @@ UI.bindEvents();
 Manager.bindEvents();
 
 // Eventually get rid of these calls below
-Manager.addProject('Sample one');
+// Manager.addProject('Project One');
+// Manager.addProject('Project Two');
 UI.renderProjects();
 
-const todo = new Todo('Title', 'Description', '12/05/2025', 'Low', false);
+
+
+Manager.addTodo('Clean shelves', '12/05/2025', 'Medium');

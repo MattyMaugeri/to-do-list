@@ -131,10 +131,6 @@ body {
     border-left: 8px solid hsl(50, 40%, 50%);
 }
 
-.project-list-item.clicked {
-    color: blue;
-}
-
 
 #add-project-btn {
     margin-top: auto;
@@ -161,22 +157,23 @@ body {
     padding: 0.5rem;
 }
 
-.inputs {
-    margin-left: 1rem;
-    padding: 0.3em 0.5em;
-    width: 95%;
-    background: transparent;
-    border-radius: 8px;
-    border: none;
+#add-todo-btn {
+    width: 100%;
+    text-align: start;
 }
 
-.inputs:hover {
-    background-color: rgba(225, 224, 216, 0.2);
+#add-todo-btn:hover {
+    cursor: pointer;
 }
 
-.inputs:focus {
-    background-color: rgba(225, 224, 216, 0.3);
-    box-shadow: 0 0 0 1px hsl(46, 39%, 80%);
-    outline: none;
-    border-bottom: 1px solid hsl(50, 40%, 50%);
+#add-todo-form {
+    display: none;
+}
+
+#add-todo-form.opened {
+    display: flex;
+    justify-content: space-between;
+}
+
+#add-todo-form > * {
 }

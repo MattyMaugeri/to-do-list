@@ -12,36 +12,32 @@ const addProjectBtn = document.querySelector('#add-project-btn');
 const cancelBtn = document.querySelector('#dialog-cancel-btn');
 
 
+
 function addProjectDisplay() {
     dialog.showModal();
 }
 
 // This is where you would display the specific todos of that project in the content div
 function viewProjectTodos(project) {
-    // Refresh content content
-    console.log(project);
 
+    console.log(project);
+    
     const card = document.createElement('div');
     card.classList.add('card');
+    card.id = project.split(' ').join('').toLowerCase();
+
     const cardHeader = document.createElement('h3');
     cardHeader.classList.add('card-header');
-    cardHeader.textContent = project.title || project.textContent;
+    cardHeader.textContent = project;
 
     const cardContent = document.createElement('div');
     cardContent.classList.add('card-content');
 
-    const cardInputs = document.createElement('input');
-    cardInputs.classList.add('inputs');
-    cardInputs.placeholder = 'New...';
+    // const addTodoBtn = document.createElement('button');
+    // addTodoBtn.id = 'add-todo-btn';
+    // addTodoBtn.textContent = 'Add New Task ...';
+    // cardContent.appendChild(addTodoBtn);
 
-
-    const checkBox = document.createElement('input');
-    checkBox.type = 'checkbox';
-    checkBox.classList.add('checkbox');
-
-
-    cardContent.appendChild(checkBox);
-    cardContent.appendChild(cardInputs);
 
     card.appendChild(cardHeader);
     card.appendChild(cardContent);
@@ -49,28 +45,41 @@ function viewProjectTodos(project) {
 }
 
 function viewAllProjects() {
-    console.log('View all button clicked');
     content.textContent = '';
 
-    Manager.myProjects.forEach(project => viewProjectTodos(project));
-    
+    for (const project in Manager.tasks) {
+        viewProjectTodos(project);
+        
+    }
+
 }
 
 const projectDiv = document.querySelector('.my-projects');
 const unorderedListDiv = document.createElement('ul');
+
 unorderedListDiv.classList.add('my-projects-list');
 projectDiv.appendChild(unorderedListDiv);
+
 function renderProjects() {
     // Refresh the content
     unorderedListDiv.textContent = '';
 
-    for (let i = 0; i < Manager.myProjects.length; i++) {
+    for (const project in Manager.tasks) {
         const listItem = document.createElement('li');
         listItem.classList.add('project-list-item');
-        listItem.id = Manager.myProjects[i].title.split(' ').join('').toLowerCase();
-        listItem.textContent = Manager.myProjects[i].title;
+        listItem.id = project.split(' ').join('').toLowerCase();
+        listItem.textContent = project;
         unorderedListDiv.appendChild(listItem);
     }
+}
+
+// A list of forms need to be created ?
+
+const cardDiv = document.querySelector('.card');
+const cardContentDiv = document.querySelector('.card-content');
+function renderTodos() {
+
+
 }
 
 
@@ -80,10 +89,17 @@ function bindEvents() {
     // listener to call method to display specific todos for the clicked on project
     unorderedListDiv.addEventListener('click', (e) => {
         content.textContent = '';
-        viewProjectTodos(e.target);
+        viewProjectTodos(e.target.innerHTML);        
     });
 
 
+    // Figuring out how to append form to card div without it breaking everything
+    content.addEventListener('click', (e) => {
+        const target = e.target;
+        if (target.id === 'add-todo-btn') {
+            console.log(target);
+        }
+    })
 
     viewAllProjectsBtn.addEventListener('click', viewAllProjects);
 

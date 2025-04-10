@@ -1,10 +1,9 @@
 class Todo {
-    constructor (title, desc, duDate, priority, completed) {
-        this.title = title;
-        this.desc = desc;
+    constructor (description, duDate, priority, completed) {
+        this.description = description;
         this.duDate = duDate;
         this.priority = priority;
-        this.completed = completed;
+        completed = false;
     }
 
     toggleComplete() {
