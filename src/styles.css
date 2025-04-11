@@ -157,12 +157,12 @@ body {
     padding: 0.5rem;
 }
 
-#add-todo-btn {
+.add-todo-btn {
     width: 100%;
     text-align: start;
 }
 
-#add-todo-btn:hover {
+.add-todo-btn:hover {
     cursor: pointer;
 }
 

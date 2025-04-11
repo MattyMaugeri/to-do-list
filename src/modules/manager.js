@@ -22,9 +22,6 @@ const tasks = {
     ],
 }
 
-
-
-
 function addProject(title) {
     tasks[title] = [
         {
@@ -37,15 +34,20 @@ function addProject(title) {
 }
 
 function addTodo(description, duDate, priority) {
-    const todo = new Todo(description, duDate, priority);
-    // console.log(todo);
-
+    return new Todo(description, duDate, priority);
 }
 
+
+function normaliseTitle(string) {
+    return string
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
 
 
 function bindEvents() {
 
 }
 
-export { addProject, bindEvents, myProjects, addTodo, tasks }
+export { addProject, bindEvents, myProjects, addTodo, tasks, normaliseTitle }
