@@ -1,4 +1,5 @@
 import * as Manager from './manager';
+import { Project } from './project';
 
 const dialog = document.querySelector('#add-project-dialog');
 const projectForm = document.querySelector('#add-project-form');
@@ -13,7 +14,7 @@ function addProjectDisplay() {
     dialog.showModal();
 }
 
-function createCard(project) { 
+function createCard(project) {
     const card = document.createElement('div');
     card.classList.add('card');
 
@@ -33,7 +34,6 @@ function createCard(project) {
 
     const addTodoBtn = document.createElement('button');
     addTodoBtn.classList.add('add-todo-btn');
-    // Won't need to split and join for this id
     addTodoBtn.id = `${project.split(' ').join('-').toLowerCase()}-btn`;
     addTodoBtn.textContent = 'Add New Task ...';
 
@@ -41,36 +41,38 @@ function createCard(project) {
     ul.classList.add('todo-list');
     sectionTwo.appendChild(ul);
 
+    sectionOne.appendChild(addTodoBtn);
     cardContent.appendChild(sectionOne);
     cardContent.appendChild(sectionTwo);
-    sectionOne.appendChild(addTodoBtn);
 
     card.appendChild(cardHeader);
     card.appendChild(cardContent);
     content.appendChild(card);
 }
 
-function viewProjectTodos(project) {  
-    const currentProject = `#${project.split(' ').join('-').toLowerCase()}`;      
-    const projectList = document.querySelector(currentProject);
+function createListItem(todo) {
+    const li = document.createElement('li');
+    li.classList.add('todo-list-item');
+    li.textContent = todo.description;
 
-    Manager.tasks[project].forEach(todo => {
-        const li = document.createElement('li');
-        li.classList.add('todo-list-item');
-        li.textContent = todo.description;
+    const dateSpan = document.createElement('span');
+    dateSpan.textContent = todo.dueDate;
 
-        const dateSpan = document.createElement('span');
-        dateSpan.textContent = todo.dueDate;
+    const prioritySpan = document.createElement('span');
+    prioritySpan.textContent = todo.priority;
 
-        const prioritySpan = document.createElement('span');
-        prioritySpan.textContent = todo.priority;
+    li.appendChild(dateSpan);
+    li.appendChild(prioritySpan);
 
-        li.appendChild(dateSpan);
-        li.appendChild(prioritySpan);
-        projectList.appendChild(li);
-    });
+    return li;
 }
 
+function renderTodos(project) {
+    const projectID = `#${project.split(' ').join('-').toLowerCase()}`;
+    const projectList = document.querySelector(`${projectID} > .section-two > .todo-list`);
+
+    Manager.tasks[project].forEach(todo => projectList.appendChild(createListItem(todo)));
+}
 
 function viewAllProjects() {
     // Clear content
@@ -78,9 +80,8 @@ function viewAllProjects() {
 
     for (const project in Manager.tasks) {
         createCard(project);
-        viewProjectTodos(project);
+        renderTodos(project);
     }
-
 }
 
 const projectDiv = document.querySelector('.my-projects');
@@ -122,17 +123,21 @@ function createButton() {
 
 const todoCancelBtn = document.getElementById('todo-cancel-btn');
 
+
 function bindEvents() {
 
     // listener to call method to display specific todos for the clicked on project
     unorderedListDiv.addEventListener('click', (e) => {
         const project = e.target.innerHTML;
-        console.log(project);
-        
+        if (e.target.tagName === 'LI') {
+            content.textContent = '';
 
-        content.textContent = '';
-        createCard(project);
-        viewProjectTodos(project);
+            createCard(project);
+            renderTodos(project);
+        } else {
+            return;
+        }
+
     });
 
 
@@ -143,12 +148,6 @@ function bindEvents() {
         if (target.classList.contains('add-todo-btn')) {
             displayTodoForm(target);
         }
-
-        // Find the project in task => Manager.tasks[parent]
-
-        // Display the form in that section
-
-        // On form submit create a todo which will get added to that project 
 
     })
 
@@ -176,8 +175,8 @@ function bindEvents() {
 
     projectForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        // May need to normalise this title value before adding to project
-        const title = document.getElementById('title').value;        
+        const title = document.getElementById('title').value;
+
         Manager.addProject(Manager.normaliseTitle(title));
         renderProjects();
         projectForm.reset();
@@ -185,7 +184,6 @@ function bindEvents() {
     });
 
     cancelBtn.addEventListener('click', () => {
-        console.log('Cancel Btn Clicked');
         dialog.close();
     });
 
@@ -201,30 +199,22 @@ function bindEvents() {
 
         // New Todo object created
         const newTodo = Manager.addTodo(description, date, priority);
-        console.log(newTodo);
 
         // Push this object into the correct Project Array   
-        
-        // Normalise project 
         Manager.tasks[project].push(newTodo);
-        console.log(Manager.tasks[project]);
 
         document.querySelector('.section-one').appendChild(createButton());
 
         todoForm.classList.toggle('opened');
 
+        const projectID = `#${project.split(' ').join('-').toLowerCase()}`;
+        const projectList = document.querySelector(`${projectID} > .section-two > .todo-list`);
+
+        // Clear content
+        projectList.textContent = '';
 
         // Render the todo's to update card display
-
-        // Clear the form
-
-        // Add the button back to the div
-
-
-
-
-
-
+        renderTodos(project);
     })
 
     todoCancelBtn.addEventListener('click', (e) => {
