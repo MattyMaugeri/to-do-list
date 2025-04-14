@@ -1,7 +1,10 @@
 class Todo {
-    constructor (description, duDate, priority, completed) {
+    static currentID = 0;
+
+    constructor (description, dueDate, priority, completed) {
+        this.id = Todo.currentID++;
         this.description = description;
-        this.duDate = duDate;
+        this.dueDate = dueDate;
         this.priority = priority;
         completed = false;
     }

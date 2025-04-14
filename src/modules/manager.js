@@ -1,11 +1,10 @@
 import { Project } from './project.js';
 import { Todo } from './todo.js';
 
-const myProjects = [];
-
 const tasks = {
     'Project One': [
         {
+            id: 0,
             description: 'Clean something',
             dueDate: '12/05/2025',
             priority: 'Low',
@@ -14,6 +13,7 @@ const tasks = {
     ],
     'Project Two': [
         {
+            id: 1,
             description: 'Eat more',
             dueDate: '69/69/6999',
             priority: 'High',
@@ -26,15 +26,41 @@ function addProject(title) {
     tasks[title] = [
         {
             description: '',
-            duDate: '',
+            dueDate: '',
             priority: '',
             completed: false,
         }
     ]
 }
 
-function addTodo(description, duDate, priority) {
-    return new Todo(description, duDate, priority);
+function addTodo(description, dueDate, priority) {
+    return new Todo(description, dueDate, priority);
+}
+
+function removeTodo(todoID) {
+    for (const project in tasks) {
+        const index = tasks[project].findIndex(item => item.id == todoID);
+        console.log(index);
+
+        if (index !== -1) {
+            tasks[project].splice(index, 1);
+            return true;
+        }
+    }
+    return false;
+
+}
+
+function findProjectName(id) {    
+    for (const project in tasks) {        
+        let todos = tasks[project];        
+        for (const property of todos) {
+            if (property.id == id) {
+                return project;
+            }
+        }
+    }
+    return null;
 }
 
 
@@ -45,9 +71,8 @@ function normaliseTitle(string) {
     .join(' ');
 }
 
-
 function bindEvents() {
 
 }
 
-export { addProject, bindEvents, myProjects, addTodo, tasks, normaliseTitle }
+export { addProject, bindEvents, addTodo, tasks, normaliseTitle, removeTodo, findProjectName }
