@@ -1,12 +1,12 @@
 class Todo {
     static currentID = 0;
 
-    constructor (description, dueDate, priority, completed) {
+    constructor (description, dueDate, priority) {
         this.id = Todo.currentID++;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        completed = false;
+        this.completed = false;
     }
 
     toggleComplete() {

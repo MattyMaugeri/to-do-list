@@ -1,5 +1,5 @@
-import * as Manager from './manager';
-import { Project } from './project';
+import * as Manager from './manager.js';
+import { Todo } from './todo.js';
 
 const dialog = document.querySelector('#add-project-dialog');
 const projectForm = document.querySelector('#add-project-form');
@@ -50,9 +50,18 @@ function createCard(project) {
 }
 
 function createListItem(todo) {
+
+    const checkbox = document.createElement('input');
+    checkbox.classList.add('checkbox');
+    checkbox.id = todo.id;
+    checkbox.type = 'checkbox';    
+
+    const todoDetailsDiv = document.createElement('div');
+    todoDetailsDiv.classList.add('todo-details');
+
     const li = document.createElement('li');
     li.classList.add('todo-list-item');
-    li.textContent = todo.description;
+    todoDetailsDiv.textContent = todo.description;
 
     const dateSpan = document.createElement('span');
     dateSpan.textContent = todo.dueDate;
@@ -60,8 +69,6 @@ function createListItem(todo) {
     const prioritySpan = document.createElement('span');
     prioritySpan.textContent = todo.priority;
 
-    const btnSpan = document.createElement('span');
-    btnSpan.classList.add('delete-btn-span');
     const btn = document.createElement('button');
     btn.classList.add('delete-todo-btn');
     btn.id = todo.id;
@@ -71,10 +78,11 @@ function createListItem(todo) {
     </svg>
     `;
 
-    btnSpan.appendChild(btn);
-    li.appendChild(dateSpan);
-    li.appendChild(prioritySpan);
-    li.appendChild(btnSpan);
+    li.prepend(todoDetailsDiv);
+    li.prepend(checkbox);
+    todoDetailsDiv.appendChild(dateSpan);
+    todoDetailsDiv.appendChild(prioritySpan);
+    todoDetailsDiv.appendChild(btn);
 
     return li;
 }
@@ -123,7 +131,6 @@ function displayTodoForm(target) {
 
     sectionOne.appendChild(todoForm);
     todoForm.classList.toggle('opened');
-
 }
 
 function createButton() {
@@ -135,6 +142,9 @@ function createButton() {
 }
 
 const todoCancelBtn = document.getElementById('todo-cancel-btn');
+const checkbox = document.querySelector('.checkbox');
+console.log(checkbox);
+
 
 function bindEvents() {
 
@@ -146,8 +156,6 @@ function bindEvents() {
 
             createCard(project);
             renderTodos(project);
-            console.log(Manager.tasks[project]);
-
         } else {
             return;
         }
@@ -156,6 +164,7 @@ function bindEvents() {
     // Add Todo button
     content.addEventListener('click', (e) => {
         const target = e.target;
+        // console.log(target);
 
         if (target != null) {
             const deleteBtn = target.closest('button');
@@ -174,6 +183,10 @@ function bindEvents() {
                 console.log(Manager.tasks[project]);
 
                 renderTodos(project);
+            } else if (target.classList.contains('checkbox')) {
+                const currentTodo = Manager.findTodo(target.id);                
+                currentTodo.toggleComplete();
+                console.log(currentTodo);
             }
         } else {
             return;
@@ -207,7 +220,7 @@ function bindEvents() {
         e.preventDefault();
         const title = document.getElementById('title').value;
 
-        Manager.addProject(Manager.normaliseTitle(title));
+        Manager.createProject(Manager.normaliseTitle(title));
         renderProjects();
         projectForm.reset();
         dialog.close();
@@ -221,13 +234,13 @@ function bindEvents() {
         // grab the details submitted through the form
         const description = document.getElementById('description').value;
         const date = document.getElementById('date').value;
-
         const priority = document.getElementById('priority-select').value;
 
         // New Todo object created
-        const newTodo = Manager.addTodo(description, date, priority);
+        const newTodo = Manager.createTodo(description, date, priority);
         console.log(newTodo);
-
+        
+          
         // Push this object into the correct Project Array   
         Manager.tasks[project].push(newTodo);
 

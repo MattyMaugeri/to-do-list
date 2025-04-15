@@ -175,9 +175,6 @@ body {
     justify-content: space-between;
 }
 
-#add-todo-form > * {
-}
-
 .todo-list {
     padding: 0;
     margin: 0;
@@ -186,5 +183,13 @@ body {
 
 .todo-list-item {
     display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.todo-details {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
+    flex: 1;
 }
