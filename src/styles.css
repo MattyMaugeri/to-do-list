@@ -74,9 +74,15 @@ h6 {
 
 /* Start Styling Below */
 
+:root {
+    --tan: #fffaf0;
+    --dark-tan: hsl(50, 40%, 50%);
+    --darker-tan: hsl(50, 40%, 20%);
+}
+
 *{
     font-family: 'Merriweather', sans-serif;
-    color: hsl(50, 40%, 20%);
+    color: var(--darker-tan);
 }
 
 body {
@@ -90,7 +96,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 40px;
-    background-color: #fffaf0;
+    background-color: var(--tan);
     box-shadow: 0 2px 13px rgba(0, 0, 0, 0.2);
 }
 
@@ -192,4 +198,39 @@ body {
     align-items: center;
     justify-content: space-between;
     flex: 1;
+}
+
+.todo-details:hover {
+    cursor: pointer;
+}
+
+.checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: #fff;
+    border: 3px solid var(--darker-tan);
+    border-radius: 50%; /* Makes it round */
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+}
+
+.checkbox:hover {
+    opacity: 0.8;
+}
+
+.checkbox:checked {
+    background-color: var(--dark-tan);
+}
+
+.checkbox:checked::after {
+    content: "\2713";
+    color: white;
+    font-size: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

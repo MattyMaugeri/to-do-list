@@ -1,8 +1,8 @@
 import * as Manager from './manager.js';
 import { Todo } from './todo.js';
 
-const dialog = document.querySelector('#add-project-dialog');
-const projectForm = document.querySelector('#add-project-form');
+const projectDialog = document.querySelector('#project-dialog');
+const projectForm = document.querySelector('#project-form');
 const sidebarDiv = document.querySelectorAll('.sidebar');
 const content = document.querySelector('.content');
 
@@ -10,7 +10,7 @@ const viewAllProjectsBtn = document.querySelector('#view-all-projects-btn');
 const addProjectBtn = document.querySelector('#add-project-btn');
 
 function addProjectDisplay() {
-    dialog.showModal();
+    projectDialog.showModal();
 }
 
 function createCard(project) {
@@ -53,11 +53,12 @@ function createListItem(todo) {
 
     const checkbox = document.createElement('input');
     checkbox.classList.add('checkbox');
-    checkbox.id = todo.id;
-    checkbox.type = 'checkbox';    
+    checkbox.id = `checkbox-${todo.id}`;
+    checkbox.type = 'checkbox';
 
     const todoDetailsDiv = document.createElement('div');
     todoDetailsDiv.classList.add('todo-details');
+    todoDetailsDiv.id = `todo-${todo.id}`;
 
     const li = document.createElement('li');
     li.classList.add('todo-list-item');
@@ -71,7 +72,7 @@ function createListItem(todo) {
 
     const btn = document.createElement('button');
     btn.classList.add('delete-todo-btn');
-    btn.id = todo.id;
+    btn.id = `delete-todo-${todo.id}`;
     btn.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="currentColor"> 
         <path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/>
@@ -80,9 +81,9 @@ function createListItem(todo) {
 
     li.prepend(todoDetailsDiv);
     li.prepend(checkbox);
+    li.append(btn);
     todoDetailsDiv.appendChild(dateSpan);
     todoDetailsDiv.appendChild(prioritySpan);
-    todoDetailsDiv.appendChild(btn);
 
     return li;
 }
@@ -172,20 +173,25 @@ function bindEvents() {
             if (target.classList.contains('add-todo-btn')) {
                 displayTodoForm(target);
             } else if (target.id === 'todo-cancel-btn') {
-                dialog.close();
+                return;
             } else if (target.id === 'todo-submit-btn') {
                 return;
             } else if (deleteBtn != null) {
-                const deleteBtnID = deleteBtn.id;
-                const project = Manager.findProjectName(deleteBtnID);
+                const buttonID = deleteBtn.id.split('-').pop();
+                const project = Manager.findProjectName(buttonID);
 
-                Manager.removeTodo(deleteBtnID);
+                Manager.removeTodo(buttonID);
                 console.log(Manager.tasks[project]);
-
                 renderTodos(project);
             } else if (target.classList.contains('checkbox')) {
-                const currentTodo = Manager.findTodo(target.id);                
+                const todoID = target.id.split('-').pop();
+                const currentTodo = Manager.findTodo(todoID);
                 currentTodo.toggleComplete();
+                console.log(currentTodo);
+            } else if (target.classList.contains('todo-details') ||
+                target.parentElement.classList.contains('todo-details')) {
+                const todoID = target.id.split('-').pop();
+                const currentTodo = Manager.findTodo(todoID);
                 console.log(currentTodo);
             }
         } else {
@@ -223,8 +229,12 @@ function bindEvents() {
         Manager.createProject(Manager.normaliseTitle(title));
         renderProjects();
         projectForm.reset();
-        dialog.close();
+        projectDialog.close();
     });
+
+    projectForm.addEventListener('reset', () => {
+        projectDialog.close();
+    })
 
 
     todoForm.addEventListener('submit', (e) => {
@@ -239,8 +249,8 @@ function bindEvents() {
         // New Todo object created
         const newTodo = Manager.createTodo(description, date, priority);
         console.log(newTodo);
-        
-          
+
+
         // Push this object into the correct Project Array   
         Manager.tasks[project].push(newTodo);
 
