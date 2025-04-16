@@ -10,6 +10,7 @@ const viewAllProjectsBtn = document.querySelector('#view-all-projects-btn');
 const addProjectBtn = document.querySelector('#add-project-btn');
 
 function addProjectDisplay() {
+    document.body.classList.add('blur');
     projectDialog.showModal();
 }
 
@@ -125,7 +126,7 @@ function renderProjects() {
         projectNameDiv.textContent = project;
 
         const btn = document.createElement('button');
-        btn.classList.add('remove-project-btn');
+        btn.classList.add('delete-project-btn');
         btn.id = project;
         btn.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="currentColor"> 
@@ -243,6 +244,7 @@ function bindEvents() {
 
                 viewTodoDetails(currentTodo);
 
+                document.body.classList.add('blur');
                 todoDialog.showModal();
 
                 // Add id to dialog dataset
@@ -258,7 +260,7 @@ function bindEvents() {
     todoDialog.addEventListener('reset', (e) => {
         console.log(e.target);
         todoDialog.close();
-
+        document.body.classList.remove('blur');
     });
 
     // Todo Dialog Submit Button
@@ -273,6 +275,7 @@ function bindEvents() {
         renderTodos(project);
 
         todoDialog.close();
+        document.body.classList.remove('blur');
     })
 
     viewAllProjectsBtn.addEventListener('click', viewAllProjects);
@@ -301,7 +304,7 @@ function bindEvents() {
         const target = e.target.closest('button');
 
         if (target != null) {
-            if (target.classList.contains('remove-project-btn')) {
+            if (target.classList.contains('delete-project-btn')) {
                 const projectName = target.id;
                 Manager.removeProject(projectName);
                 renderProjects();
@@ -319,10 +322,12 @@ function bindEvents() {
         Manager.createProject(Manager.normaliseTitle(title));
         renderProjects();
         projectForm.reset();
+        document.body.classList.remove('blur');
         projectDialog.close();
     });
 
     projectForm.addEventListener('reset', () => {
+        document.body.classList.remove('blur');
         projectDialog.close();
     })
 

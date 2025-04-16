@@ -80,7 +80,7 @@ h6 {
     --darker-tan: hsl(50, 40%, 20%);
 }
 
-*{
+* {
     font-family: 'Merriweather', sans-serif;
     color: var(--darker-tan);
 }
@@ -119,7 +119,7 @@ body {
     justify-content: space-between;
 }
 
-.sidebar > button,
+.sidebar>button,
 .project-list-item {
     border-radius: 6px;
     padding: 6px;
@@ -129,19 +129,19 @@ body {
     flex: 1;
 }
 
-.sidebar > button {
+.sidebar>button {
     border: none;
     background-color: #fffaf0;
 }
 
-.sidebar > button:hover,
+.sidebar>button:hover,
 .project-list-item:hover {
     cursor: pointer;
     background-color: hsl(50, 40%, 75%);
     transition: 0.3s ease;
 }
 
-.sidebar > button.clicked {
+.sidebar>button.clicked {
     background-color: hsl(50, 40%, 75%);
     border-left: 8px solid hsl(50, 40%, 50%);
 }
@@ -218,7 +218,8 @@ body {
     -webkit-appearance: none;
     background-color: #fff;
     border: 3px solid var(--darker-tan);
-    border-radius: 50%; /* Makes it round */
+    border-radius: 50%;
+    /* Makes it round */
     width: 20px;
     height: 20px;
     cursor: pointer;
@@ -247,4 +248,71 @@ body {
 #todo-display-form {
     display: flex;
     flex-direction: column;
+}
+
+.delete-project-btn:hover,
+.delete-todo-btn:hover {
+    cursor: pointer;
+}
+
+#project-dialog, #todo-dialog {
+    position: absolute;
+    width: 750px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    padding: 2rem;
+    border: 2px solid #CCC;
+    box-shadow: 0 0.5em 1.2em rgba(0, 0, 0, 0.2);
+    border-radius: 0.5em;
+}
+
+.dialog-project-title>input {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    padding: 0.75rem;
+}
+
+.dialog-project-title>input:focus {
+    outline: none;
+    border: 2px solid var(--dark-tan);
+}
+
+.dialog-project-buttons,
+.todo-dialog-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.dialog-project-buttons>button,
+.todo-dialog-buttons>button {
+    width: 100%;
+    background-color: hsl(46, 39%, 80%);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0;
+    margin-top: 1rem;
+    transition: 0.3s ease;
+}
+
+.dialog-project-buttons>button:hover,
+.todo-dialog-buttons>button:hover {
+    cursor: pointer;
+    background-color: hsl(40, 40%, 60%);
+}
+
+.todo-display-header {
+    text-align: center;
+}
+
+textarea {
+    resize: none;
+    min-height: 150px;
+}
+
+
+
+.blur {
+    filter: blur(3px);
 }

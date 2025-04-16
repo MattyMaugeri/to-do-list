@@ -37,9 +37,13 @@
 
     <dialog id="project-dialog">
         <form id="project-form">
-            <input type="text" id="title" name="title" placeholder="Enter Project Title">
-            <button type="submit" class="dialog-btns" id="dialog-add-btn">Add</button>
-            <button type="reset" class="dialog-btns" id="dialog-cancel-btn">Cancel</button>
+            <div class="dialog-project-title">
+                <input type="text" id="title" name="title" placeholder="Enter Project Title">
+            </div>
+            <div class="dialog-project-buttons">
+                <button type="submit" class="dialog-btns" id="dialog-add-btn">Add</button>
+                <button type="reset" class="dialog-btns" id="dialog-cancel-btn">Cancel</button>
+            </div>
         </form>
     </dialog>
 
@@ -58,10 +62,13 @@
             </select>
 
             <label for="notes">Notes:</label>
-            <textarea name="notes" id="notes"></textarea>
+            <textarea name="notes" id="notes" maxlength="400"></textarea>
 
-            <button type="submit" id="todo-dialog-submit-btn">Add</button>
-            <button type="reset" id="todo-dialog-cancel-btn">Cancel</button>
+            <div class="todo-dialog-buttons">
+                <button type="submit" id="todo-dialog-submit-btn">Save</button>
+                <button type="reset" id="todo-dialog-cancel-btn">Cancel</button>
+            </div>
+
         </form>
     </dialog>
 
