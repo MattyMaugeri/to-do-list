@@ -29,6 +29,14 @@ function removeTodo(todoID) {
     return false;
 }
 
+function removeProject(projectName) {
+    if (tasks[projectName] && projectName !== 'Personal') {
+        delete tasks[projectName];
+    } else {
+        console.log('Cant delet this');
+    }
+}
+
 function findProjectName(id) {
     for (const project in tasks) {
         let todos = tasks[project];
@@ -62,4 +70,4 @@ function bindEvents() {
 
 }
 
-export { createProject, bindEvents, createTodo, tasks, normaliseTitle, removeTodo, findProjectName, findTodo }
+export { createProject, bindEvents, createTodo, tasks, normaliseTitle, removeTodo, findProjectName, findTodo, removeProject }

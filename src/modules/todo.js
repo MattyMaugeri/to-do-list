@@ -1,8 +1,8 @@
 class Todo {
-    static currentID = 0;
+    static todoID = 0;
 
     constructor (description, dueDate, priority) {
-        this.id = Todo.currentID++;
+        this.id = Todo.todoID++;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;

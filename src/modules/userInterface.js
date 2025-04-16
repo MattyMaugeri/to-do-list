@@ -91,8 +91,8 @@ function createListItem(todo) {
 function renderTodos(project) {
     const projectID = `#${project.split(' ').join('-').toLowerCase()}`;
     const projectList = document.querySelector(`${projectID} > .section-two > .todo-list`);
-    projectList.textContent = '';
 
+    projectList.textContent = '';
     Manager.tasks[project].forEach(todo => projectList.appendChild(createListItem(todo)));
 }
 
@@ -119,7 +119,23 @@ function renderProjects() {
     for (const project in Manager.tasks) {
         const listItem = document.createElement('li');
         listItem.classList.add('project-list-item');
-        listItem.textContent = project;
+
+        const projectNameDiv = document.createElement('div');
+        projectNameDiv.classList.add('project-name');
+        projectNameDiv.textContent = project;
+
+        const btn = document.createElement('button');
+        btn.classList.add('remove-project-btn');
+        btn.id = project;
+        btn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="currentColor"> 
+            <path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+        </svg>
+        `;
+
+        listItem.appendChild(btn);
+        listItem.appendChild(projectNameDiv);
+        listItem.appendChild(btn);
         unorderedListDiv.appendChild(listItem);
     }
 }
@@ -172,6 +188,9 @@ function updateTodoDetails(todo) {
 
 }
 
+const sidebar = document.querySelector('.sidebar');
+
+
 const todoCancelBtn = document.getElementById('todo-cancel-btn');
 const checkbox = document.querySelector('.checkbox');
 console.log(checkbox);
@@ -181,7 +200,7 @@ function bindEvents() {
     // listener to call method to display specific todos for the clicked on project
     unorderedListDiv.addEventListener('click', (e) => {
         const project = e.target.innerHTML;
-        if (e.target.tagName === 'LI') {
+        if (e.target.tagName === 'DIV') {
             content.textContent = '';
 
             createCard(project);
@@ -252,7 +271,7 @@ function bindEvents() {
 
         updateTodoDetails(currentTodo);
         renderTodos(project);
-        
+
         todoDialog.close();
     })
 
@@ -270,11 +289,28 @@ function bindEvents() {
         buttons.forEach(btn => btn.addEventListener('click', () => {
             // Remove classlist from all buttons first
             buttons.forEach(button => button.classList.remove('clicked'));
+            console.log(btn);
+
 
             // Toggle CSS class
             btn.classList.toggle('clicked');
         }));
     });
+
+    sidebar.addEventListener('click', (e) => {
+        const target = e.target.closest('button');
+
+        if (target != null) {
+            if (target.classList.contains('remove-project-btn')) {
+                const projectName = target.id;
+                Manager.removeProject(projectName);
+                renderProjects();
+            }
+        }
+
+        console.log(target);
+
+    })
 
     projectForm.addEventListener('submit', (e) => {
         e.preventDefault();

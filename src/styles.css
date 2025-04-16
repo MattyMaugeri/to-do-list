@@ -114,10 +114,19 @@ body {
     gap: 20px;
 }
 
+.project-list-item {
+    display: flex;
+    justify-content: space-between;
+}
+
 .sidebar > button,
 .project-list-item {
     border-radius: 6px;
     padding: 6px;
+}
+
+.project-name {
+    flex: 1;
 }
 
 .sidebar > button {
