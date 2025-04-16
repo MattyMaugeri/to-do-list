@@ -7,6 +7,7 @@ class Todo {
         this.dueDate = dueDate;
         this.priority = priority;
         this.completed = false;
+        this.notes = '';
     }
 
     toggleComplete() {

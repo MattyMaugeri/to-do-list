@@ -1,13 +1,15 @@
 import { Todo } from './todo.js';
+import { Project } from './project.js';
 
 const tasks = {
     'Personal': [
-        new Todo('Clean Room', '19/04/2025', 'High'),
+        new Todo('Clean Room', '2025-09-19', 'High'),
     ]
 }
 
 function createProject(title) {
-    tasks[title] = []
+    tasks[title] = [];
+    console.log(tasks);
 }
 
 function createTodo(description, dueDate, priority) {
@@ -25,7 +27,6 @@ function removeTodo(todoID) {
         }
     }
     return false;
-
 }
 
 function findProjectName(id) {

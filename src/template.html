@@ -43,12 +43,30 @@
         </form>
     </dialog>
 
+    
     <!-- Create form to edit todo details -->
     <dialog id="todo-dialog">
-        <form id="display-todo">
+        <form id="todo-display-form">
+            <h3 class="todo-display-header"></h3>
 
+            <label for="todo-display-date">Due Date:</label>
+            <input type="date" name="todo-display-date" id="todo-display-date">
+
+            <label for="todo-display-priority">Priority:</label>
+            <select name="todo-display-priority" id="todo-display-priority">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+
+            <label for="notes">Notes:</label>
+            <textarea name="notes" id="notes"></textarea>
+
+            <button type="submit" id="todo-dialog-submit-btn">Add</button>
+            <button type="reset" id="todo-dialog-cancel-btn">Cancel</button>
         </form>
     </dialog>
+
 
     <form id="add-todo-form">
         <input type="text" name="description" id="description">

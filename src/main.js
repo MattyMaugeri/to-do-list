@@ -6,3 +6,5 @@ UI.renderProjects();
 
 UI.bindEvents();
 Manager.bindEvents();
+
+console.log(Manager.tasks);

@@ -1,7 +1,7 @@
 import * as Manager from './manager.js';
-import { Todo } from './todo.js';
 
 const projectDialog = document.querySelector('#project-dialog');
+const todoDialog = document.querySelector('#todo-dialog');
 const projectForm = document.querySelector('#project-form');
 const sidebarDiv = document.querySelectorAll('.sidebar');
 const content = document.querySelector('.content');
@@ -142,10 +142,39 @@ function createButton() {
     return btn;
 }
 
+function viewTodoDetails(todo) {
+    console.log(todo);
+    const header = document.querySelector('.todo-display-header');
+    header.textContent = todo.description;
+
+    const date = document.getElementById('todo-display-date');
+    date.value = todo.dueDate;
+
+    const priority = document.getElementById('todo-display-priority');
+    priority.value = todo.priority;
+
+    const notes = document.getElementById('notes');
+    notes.textContent = todo.notes;
+}
+
+function updateTodoDetails(todo) {
+    console.log(todo);
+    const date = document.getElementById('todo-display-date').value;
+    const priority = document.getElementById('todo-display-priority').value;
+    const notes = document.getElementById('notes').value;
+
+    todo.dueDate = date;
+    todo.priority = priority;
+    todo.notes = notes;
+
+    console.log(todo);
+
+
+}
+
 const todoCancelBtn = document.getElementById('todo-cancel-btn');
 const checkbox = document.querySelector('.checkbox');
 console.log(checkbox);
-
 
 function bindEvents() {
 
@@ -192,12 +221,39 @@ function bindEvents() {
                 target.parentElement.classList.contains('todo-details')) {
                 const todoID = target.id.split('-').pop();
                 const currentTodo = Manager.findTodo(todoID);
-                console.log(currentTodo);
+
+                viewTodoDetails(currentTodo);
+
+                todoDialog.showModal();
+
+                // Add id to dialog dataset
+                todoDialog.dataset.todoId = currentTodo.id;
             }
         } else {
             return;
         }
 
+    })
+
+    // Todo Dialog Cancel Button
+    todoDialog.addEventListener('reset', (e) => {
+        console.log(e.target);
+        todoDialog.close();
+
+    });
+
+    // Todo Dialog Submit Button
+    todoDialog.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Grab Todo ID through dataset attribute 
+        const todoId = todoDialog.dataset.todoId;
+        const currentTodo = Manager.findTodo(todoId);
+        const project = Manager.findProjectName(todoId);
+
+        updateTodoDetails(currentTodo);
+        renderTodos(project);
+        
+        todoDialog.close();
     })
 
     viewAllProjectsBtn.addEventListener('click', viewAllProjects);
@@ -220,8 +276,6 @@ function bindEvents() {
         }));
     });
 
-
-
     projectForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const title = document.getElementById('title').value;
@@ -235,7 +289,6 @@ function bindEvents() {
     projectForm.addEventListener('reset', () => {
         projectDialog.close();
     })
-
 
     todoForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -276,7 +329,6 @@ function bindEvents() {
         parent.appendChild(createButton());
 
         todoForm.classList.toggle('opened');
-
     })
 
 }
