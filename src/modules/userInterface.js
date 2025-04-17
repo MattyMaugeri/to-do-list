@@ -49,7 +49,7 @@ function createCard(project) {
 
     const sortBtn = document.createElement('button');
     sortBtn.classList.add('sort-btn');
-    sortBtn.id = `sort-btn-${project.split(' ').join('-').toLowerCase()}`;
+    sortBtn.id = `sort-btn-${project.split(' ').join('-')}`;
     sortBtn.dataset.action = 'sort-todo';
     sortBtn.textContent = 'Sort by';
 

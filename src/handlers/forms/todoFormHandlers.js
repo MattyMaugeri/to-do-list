@@ -1,7 +1,7 @@
 import * as Manager from '../../modules/manager';
-import { createButton, renderTodos } from '../../modules/userInterface'
-const todoForm = document.getElementById('add-todo-form');
+import { createButton, renderTodos } from '../../modules/userInterface';
 
+const todoForm = document.getElementById('add-todo-form');
 
 function handleTodoFormSubmit(event) {
     event.preventDefault();

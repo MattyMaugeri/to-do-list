@@ -17,6 +17,7 @@ function handleContentClick(event) {
     const action = closestBtn.dataset.action;
     const todoID = target.id.split('-').pop();
     const currentTodo = Manager.findTodo(todoID);
+    const project = Manager.findProjectName(todoID);    
 
     switch (action) {
         case 'add-todo':
@@ -24,13 +25,13 @@ function handleContentClick(event) {
             break;
         case 'delete-todo':
             const deleteBtnId = closestBtn.id.split('-').pop();
-            const project = Manager.findProjectName(deleteBtnId);
-
             Manager.removeTodo(deleteBtnId);
             console.log(Manager.tasks[project]);
             renderTodos(project);
             break;
         case 'sort-todo':
+            console.log('sorting!');
+            Manager.sortTodos(closestBtn.id);
             break;
         case 'check-todo':
             currentTodo.toggleComplete();
@@ -54,14 +55,6 @@ function handleSidebarClick(event) {
 
     if (!target) return null;
     const action = target.dataset.action;
-
-    const children = target.parentElement.children;
-
-    console.log(children);
-    
-    const allBtns = [...children].filter((el) =>
-        el.tagName === 'BUTTON'
-    );
 
     switch (action) {
         case 'view-project':

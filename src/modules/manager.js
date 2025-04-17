@@ -1,8 +1,10 @@
 import { Todo } from './todo.js';
+import { renderTodos } from './userInterface.js';
 
 const tasks = {
     'Personal': [
-        new Todo('Clean Room', '1999-09-09', 'High'),
+        new Todo('Clean Room', '1999-09-09', 'Low'),
+        new Todo('Wash Something', '1999-09-09', 'High'),
     ]
 }
 
@@ -26,6 +28,20 @@ function removeTodo(todoID) {
         }
     }
     return false;
+}
+
+function sortTodos(project) {
+    const projectName = normaliseTitle(project.split('-').pop());
+
+    const priorityOrder = ['Low', 'Medium', 'High'];
+    console.log(projectName);
+
+    // Sorts the array in place
+    tasks[projectName].sort((a, b) =>
+        priorityOrder.indexOf(b.priority) - priorityOrder.indexOf(a.priority)
+    );
+
+    renderTodos(projectName);
 }
 
 function removeProject(projectName) {
@@ -69,4 +85,4 @@ function bindEvents() {
 
 }
 
-export { createProject, bindEvents, createTodo, tasks, normaliseTitle, removeTodo, findProjectName, findTodo, removeProject }
+export { createProject, bindEvents, createTodo, tasks, normaliseTitle, removeTodo, findProjectName, findTodo, removeProject, sortTodos }
