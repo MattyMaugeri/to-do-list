@@ -1,9 +1,8 @@
 import { Todo } from './todo.js';
-import { Project } from './project.js';
 
 const tasks = {
     'Personal': [
-        new Todo('Clean Room', '2025-09-19', 'High'),
+        new Todo('Clean Room', '1999-09-09', 'High'),
     ]
 }
 
@@ -33,7 +32,7 @@ function removeProject(projectName) {
     if (tasks[projectName] && projectName !== 'Personal') {
         delete tasks[projectName];
     } else {
-        console.log('Cant delet this');
+        console.log('Cant delete this');
     }
 }
 

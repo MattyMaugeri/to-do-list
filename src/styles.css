@@ -141,11 +141,11 @@ body {
     transition: 0.3s ease;
 }
 
-.sidebar>button.clicked {
+.sidebar-btn.clicked,
+.project-list-item.clicked {
     background-color: hsl(50, 40%, 75%);
     border-left: 8px solid hsl(50, 40%, 50%);
 }
-
 
 #add-project-btn {
     margin-top: auto;
@@ -311,6 +311,10 @@ textarea {
     min-height: 150px;
 }
 
+.sort-div {
+    display: flex;
+    justify-content: flex-end;
+}
 
 
 .blur {

@@ -1,13 +1,18 @@
 import * as Manager from './manager.js';
+import { handleTodoDialogSubmit, handleTodoDialogReset } from '../handlers/dialogs/todoDialogHandlers.js';
+import { handleTodoFormSubmit, handleTodoFormReset } from '../handlers/forms/todoFormHandlers.js';
+import { handleProjectFormSubmit, handleProjectFormReset } from '../handlers/forms/projectFormHandlers.js';
+import { handleContentClick, handleSidebarClick } from '../handlers/content/contentClickHandlers.js';
 
-const projectDialog = document.querySelector('#project-dialog');
-const todoDialog = document.querySelector('#todo-dialog');
-const projectForm = document.querySelector('#project-form');
-const sidebarDiv = document.querySelectorAll('.sidebar');
 const content = document.querySelector('.content');
+const sidebar = document.querySelector('.sidebar');
 
-const viewAllProjectsBtn = document.querySelector('#view-all-projects-btn');
-const addProjectBtn = document.querySelector('#add-project-btn');
+const projectForm = document.querySelector('#project-form');
+const projectDialog = document.querySelector('#project-dialog');
+
+const todoDialog = document.querySelector('#todo-dialog');
+const todoForm = document.getElementById('add-todo-form');
+
 
 function addProjectDisplay() {
     document.body.classList.add('blur');
@@ -32,15 +37,36 @@ function createCard(project) {
     const sectionTwo = document.createElement('div');
     sectionTwo.classList.add('section-two');
 
-    const addTodoBtn = document.createElement('button');
-    addTodoBtn.classList.add('add-todo-btn');
+    const addTodoBtn = createButton();
     addTodoBtn.id = `${project.split(' ').join('-').toLowerCase()}-btn`;
-    addTodoBtn.textContent = 'Add New Task ...';
 
     const ul = document.createElement('ul');
     ul.classList.add('todo-list');
-    sectionTwo.appendChild(ul);
 
+    const sortDiv = document.createElement('div');
+    sortDiv.classList.add('sort-div');
+    sortDiv.id = `sort-div-${project.split(' ').join('-').toLowerCase()}`;
+
+    const sortBtn = document.createElement('button');
+    sortBtn.classList.add('sort-btn');
+    sortBtn.id = `sort-btn-${project.split(' ').join('-').toLowerCase()}`;
+    sortBtn.dataset.action = 'sort-todo';
+    sortBtn.textContent = 'Sort by';
+
+    const sortIcon = document.createElement('div');
+    sortIcon.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="20" height="20" fill="currentColor">
+        <path d="M182.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8l256 0c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128z"/>
+    </svg>
+    `;
+    sortIcon.classList.add('sort-icon');
+    sortIcon.id = `sort-icon-${project.split(' ').join('-').toLowerCase()}`
+
+    sortDiv.appendChild(sortBtn);
+    sortDiv.appendChild(sortIcon);
+    sectionTwo.appendChild(sortDiv);
+
+    sectionTwo.appendChild(ul);
     sectionOne.appendChild(addTodoBtn);
     cardContent.appendChild(sectionOne);
     cardContent.appendChild(sectionTwo);
@@ -54,12 +80,14 @@ function createListItem(todo) {
 
     const checkbox = document.createElement('input');
     checkbox.classList.add('checkbox');
+    checkbox.dataset.action = 'check-todo';
     checkbox.id = `checkbox-${todo.id}`;
     checkbox.type = 'checkbox';
 
     const todoDetailsDiv = document.createElement('div');
     todoDetailsDiv.classList.add('todo-details');
     todoDetailsDiv.id = `todo-${todo.id}`;
+    todoDetailsDiv.dataset.action = 'edit-todo';
 
     const li = document.createElement('li');
     li.classList.add('todo-list-item');
@@ -74,6 +102,7 @@ function createListItem(todo) {
     const btn = document.createElement('button');
     btn.classList.add('delete-todo-btn');
     btn.id = `delete-todo-${todo.id}`;
+    btn.dataset.action = 'delete-todo';
     btn.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="currentColor"> 
         <path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/>
@@ -93,8 +122,13 @@ function renderTodos(project) {
     const projectID = `#${project.split(' ').join('-').toLowerCase()}`;
     const projectList = document.querySelector(`${projectID} > .section-two > .todo-list`);
 
-    projectList.textContent = '';
-    Manager.tasks[project].forEach(todo => projectList.appendChild(createListItem(todo)));
+    if (projectList != null) {
+        projectList.textContent = '';
+        Manager.tasks[project].forEach(todo => projectList.appendChild(createListItem(todo)));
+    } else {
+        return;
+    }
+
 }
 
 function viewAllProjects() {
@@ -119,7 +153,9 @@ function renderProjects() {
 
     for (const project in Manager.tasks) {
         const listItem = document.createElement('li');
+        listItem.id = project;
         listItem.classList.add('project-list-item');
+        listItem.dataset.action = 'view-project';
 
         const projectNameDiv = document.createElement('div');
         projectNameDiv.classList.add('project-name');
@@ -128,6 +164,7 @@ function renderProjects() {
         const btn = document.createElement('button');
         btn.classList.add('delete-project-btn');
         btn.id = project;
+        btn.dataset.action = 'delete-project';
         btn.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="currentColor"> 
             <path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/>
@@ -141,7 +178,6 @@ function renderProjects() {
     }
 }
 
-const todoForm = document.getElementById('add-todo-form');
 
 function displayTodoForm(target) {
     const sectionOne = target.parentElement;
@@ -154,6 +190,7 @@ function displayTodoForm(target) {
 function createButton() {
     const btn = document.createElement('button');
     btn.classList.add('add-todo-btn');
+    btn.dataset.action = 'add-todo';
     btn.textContent = 'Add New Task ...';
 
     return btn;
@@ -185,195 +222,41 @@ function updateTodoDetails(todo) {
     todo.notes = notes;
 
     console.log(todo);
-
-
 }
 
-const sidebar = document.querySelector('.sidebar');
+
+function toggleSidebarHighlight(target, className = 'clicked') {
+    const allSidebarBtns = document.querySelectorAll('.sidebar-btn');
+    const allProjects = document.querySelectorAll('.project-list-item');
+    
+    [...allSidebarBtns, ...allProjects].forEach(el => el.classList.remove(className));
+
+    target.classList.add(className);
+}
 
 
 const todoCancelBtn = document.getElementById('todo-cancel-btn');
-const checkbox = document.querySelector('.checkbox');
-console.log(checkbox);
 
 function bindEvents() {
 
-    // listener to call method to display specific todos for the clicked on project
-    unorderedListDiv.addEventListener('click', (e) => {
-        const project = e.target.innerHTML;
-        if (e.target.tagName === 'DIV') {
-            content.textContent = '';
+    content.addEventListener('click', handleContentClick);
+    sidebar.addEventListener('click', handleSidebarClick);
 
-            createCard(project);
-            renderTodos(project);
-        } else {
-            return;
-        }
-    });
+    todoDialog.addEventListener('reset', handleTodoDialogReset);
+    todoDialog.addEventListener('submit', handleTodoDialogSubmit);
 
-    // Add Todo button
-    content.addEventListener('click', (e) => {
-        const target = e.target;
-        // console.log(target);
+    todoForm.addEventListener('submit', handleTodoFormSubmit);
 
-        if (target != null) {
-            const deleteBtn = target.closest('button');
+    // needs to be todoForm('reset'); fix logic to 
+    todoCancelBtn.addEventListener('click', handleTodoFormReset);
 
-            if (target.classList.contains('add-todo-btn')) {
-                displayTodoForm(target);
-            } else if (target.id === 'todo-cancel-btn') {
-                return;
-            } else if (target.id === 'todo-submit-btn') {
-                return;
-            } else if (deleteBtn != null) {
-                const buttonID = deleteBtn.id.split('-').pop();
-                const project = Manager.findProjectName(buttonID);
-
-                Manager.removeTodo(buttonID);
-                console.log(Manager.tasks[project]);
-                renderTodos(project);
-            } else if (target.classList.contains('checkbox')) {
-                const todoID = target.id.split('-').pop();
-                const currentTodo = Manager.findTodo(todoID);
-                currentTodo.toggleComplete();
-                console.log(currentTodo);
-            } else if (target.classList.contains('todo-details') ||
-                target.parentElement.classList.contains('todo-details')) {
-                const todoID = target.id.split('-').pop();
-                const currentTodo = Manager.findTodo(todoID);
-
-                viewTodoDetails(currentTodo);
-
-                document.body.classList.add('blur');
-                todoDialog.showModal();
-
-                // Add id to dialog dataset
-                todoDialog.dataset.todoId = currentTodo.id;
-            }
-        } else {
-            return;
-        }
-
-    })
-
-    // Todo Dialog Cancel Button
-    todoDialog.addEventListener('reset', (e) => {
-        console.log(e.target);
-        todoDialog.close();
-        document.body.classList.remove('blur');
-    });
-
-    // Todo Dialog Submit Button
-    todoDialog.addEventListener('submit', (e) => {
-        e.preventDefault();
-        // Grab Todo ID through dataset attribute 
-        const todoId = todoDialog.dataset.todoId;
-        const currentTodo = Manager.findTodo(todoId);
-        const project = Manager.findProjectName(todoId);
-
-        updateTodoDetails(currentTodo);
-        renderTodos(project);
-
-        todoDialog.close();
-        document.body.classList.remove('blur');
-    })
-
-    viewAllProjectsBtn.addEventListener('click', viewAllProjects);
-
-    addProjectBtn.addEventListener('click', addProjectDisplay);
-
-    sidebarDiv.forEach((element) => {
-        let children = Array.from(element.children);
-
-        const buttons = children.filter((child) =>
-            child.tagName === 'BUTTON'
-        );
-
-        buttons.forEach(btn => btn.addEventListener('click', () => {
-            // Remove classlist from all buttons first
-            buttons.forEach(button => button.classList.remove('clicked'));
-            console.log(btn);
-
-
-            // Toggle CSS class
-            btn.classList.toggle('clicked');
-        }));
-    });
-
-    sidebar.addEventListener('click', (e) => {
-        const target = e.target.closest('button');
-
-        if (target != null) {
-            if (target.classList.contains('delete-project-btn')) {
-                const projectName = target.id;
-                Manager.removeProject(projectName);
-                renderProjects();
-            }
-        }
-
-        console.log(target);
-
-    })
-
-    projectForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const title = document.getElementById('title').value;
-
-        Manager.createProject(Manager.normaliseTitle(title));
-        renderProjects();
-        projectForm.reset();
-        document.body.classList.remove('blur');
-        projectDialog.close();
-    });
-
-    projectForm.addEventListener('reset', () => {
-        document.body.classList.remove('blur');
-        projectDialog.close();
-    })
-
-    todoForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const project = Manager.normaliseTitle(e.target.parentElement.parentElement.id);
-
-        // grab the details submitted through the form
-        const description = document.getElementById('description').value;
-        const date = document.getElementById('date').value;
-        const priority = document.getElementById('priority-select').value;
-
-        // New Todo object created
-        const newTodo = Manager.createTodo(description, date, priority);
-        console.log(newTodo);
-
-
-        // Push this object into the correct Project Array   
-        Manager.tasks[project].push(newTodo);
-
-        document.querySelector('.section-one').appendChild(createButton());
-
-        todoForm.classList.toggle('opened');
-
-        const projectID = `#${project.split(' ').join('-').toLowerCase()}`;
-        const projectList = document.querySelector(`${projectID} > .section-two > .todo-list`);
-
-        // Clear content
-        projectList.textContent = '';
-
-        // Render the todo's to update card display
-        renderTodos(project);
-    })
-
-    todoCancelBtn.addEventListener('click', (e) => {
-        const parent = e.target.parentElement.parentElement;
-        parent.textContent = '';
-
-        console.log(parent);
-        parent.appendChild(createButton());
-
-        todoForm.classList.toggle('opened');
-    })
+    projectForm.addEventListener('submit', handleProjectFormSubmit);
+    projectForm.addEventListener('reset', handleProjectFormReset)
 
 }
 
-// Remove render eventually
 
-export { addProjectDisplay, bindEvents, renderProjects };
+export {
+    addProjectDisplay, bindEvents, renderProjects, renderTodos, updateTodoDetails,
+    createButton, viewTodoDetails, createCard, viewAllProjects, displayTodoForm, toggleSidebarHighlight
+};
