@@ -1,8 +1,9 @@
-import * as Manager from './manager.js';
 import { handleTodoDialogSubmit, handleTodoDialogReset } from '../handlers/dialogs/todoDialogHandlers.js';
 import { handleTodoFormSubmit, handleTodoFormReset } from '../handlers/forms/todoFormHandlers.js';
 import { handleProjectFormSubmit, handleProjectFormReset } from '../handlers/forms/projectFormHandlers.js';
 import { handleContentClick, handleSidebarClick } from '../handlers/content/contentClickHandlers.js';
+
+import { tasks } from '../main.js';
 
 const content = document.querySelector('.content');
 const sidebar = document.querySelector('.sidebar');
@@ -81,13 +82,14 @@ function createListItem(todo) {
     const checkbox = document.createElement('input');
     checkbox.classList.add('checkbox');
     checkbox.dataset.action = 'check-todo';
-    checkbox.id = `checkbox-${todo.id}`;
+    checkbox.dataset.todoId = todo.id;
     checkbox.type = 'checkbox';
 
     const todoDetailsDiv = document.createElement('div');
     todoDetailsDiv.classList.add('todo-details');
     todoDetailsDiv.id = `todo-${todo.id}`;
     todoDetailsDiv.dataset.action = 'edit-todo';
+    todoDetailsDiv.dataset.todoId = todo.id;
 
     const li = document.createElement('li');
     li.classList.add('todo-list-item');
@@ -129,7 +131,7 @@ function renderTodos(project) {
 
     if (projectList != null) {
         projectList.textContent = '';
-        Manager.tasks[project].forEach(todo => projectList.appendChild(createListItem(todo)));
+        tasks[project].forEach(todo => projectList.appendChild(createListItem(todo)));
     } else {
         return;
     }
@@ -140,7 +142,7 @@ function viewAllProjects() {
     // Clear content
     content.textContent = '';
 
-    for (const project in Manager.tasks) {
+    for (const project in tasks) {
         createCard(project);
         renderTodos(project);
     }
@@ -156,7 +158,7 @@ function renderProjects() {
     // Clear content
     unorderedListDiv.textContent = '';
 
-    for (const project in Manager.tasks) {
+    for (const project in tasks) {
         const listItem = document.createElement('li');
         listItem.id = project;
         listItem.classList.add('project-list-item');

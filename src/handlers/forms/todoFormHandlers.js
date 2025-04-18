@@ -1,6 +1,8 @@
 import * as Manager from '../../modules/manager';
 import { createButton, renderTodos } from '../../modules/userInterface';
 
+import { tasks } from '../../main';
+
 const todoForm = document.getElementById('add-todo-form');
 
 function handleTodoFormSubmit(event) {
@@ -18,7 +20,7 @@ function handleTodoFormSubmit(event) {
 
 
     // Push this object into the correct Project Array   
-    Manager.tasks[project].push(newTodo);
+    tasks[project].push(newTodo);
 
     document.querySelector('.section-one').appendChild(createButton());
 

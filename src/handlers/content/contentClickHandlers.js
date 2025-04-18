@@ -5,6 +5,10 @@ import {
 }
     from '../../modules/userInterface'
 
+import { tasks } from '../../main';
+
+import { Todo } from '../../modules/todo';
+
 const content = document.querySelector('.content');
 const todoDialog = document.querySelector('#todo-dialog');
 
@@ -14,18 +18,24 @@ function handleContentClick(event) {
 
     if (!closestBtn) return null;
 
-    const action = closestBtn.dataset.action;    
-    const todoID = Number(closestBtn.dataset.todoId);
+    const action = closestBtn.dataset.action;
+    const todoID = closestBtn.dataset.todoId;
+    console.log('TodoID: ', todoID);
+    
     const currentTodo = Manager.findTodo(todoID);
-    const currentProject = Manager.findProjectName(todoID);    
+    console.log(currentTodo);
+    
+
+
+    const currentProject = Manager.findProjectName(todoID);
 
     switch (action) {
         case 'add-todo':
             displayTodoForm(target);
             break;
-        case 'delete-todo':        
-            Manager.removeTodo(todoID);
-            console.log(Manager.tasks[currentProject]);
+        case 'delete-todo':
+            Manager.removeTodo(Number(todoID));
+            console.log(tasks[currentProject]);
             renderTodos(currentProject);
             break;
         case 'sort-todo':
@@ -33,10 +43,16 @@ function handleContentClick(event) {
             Manager.sortTodos(closestBtn.id);
             break;
         case 'check-todo':
-            currentTodo.toggleComplete();
-            console.log(currentTodo);
+            if (currentTodo instanceof Todo) {
+                currentTodo.toggleComplete();
+                console.log('Todo toggled: ', currentTodo);
+            } else {
+                console.error('currentTodo is still not a Todo instance:', currentTodo);
+            }
             break;
         case 'edit-todo':
+            console.log('Editing Todo: ', currentTodo);
+            
             viewTodoDetails(currentTodo);
             document.body.classList.add('blur');
             todoDialog.showModal();

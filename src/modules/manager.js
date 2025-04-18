@@ -1,12 +1,6 @@
 import { Todo } from './todo.js';
 import { renderTodos } from './userInterface.js';
-
-const tasks = {
-    'Personal': [
-        new Todo('Clean Room', '1999-09-09', 'Low'),
-        new Todo('Wash Something', '1999-09-09', 'High'),
-    ]
-}
+import { tasks } from '../main.js';
 
 function createProject(title) {
     tasks[title] = [];
@@ -34,7 +28,7 @@ function removeTodo(todoID) {
 function sortTodos(project) {
     const projectName = normaliseTitle(project.split('-').pop());
 
-    const priorityOrder = ['Low', 'Medium', 'High'];    
+    const priorityOrder = ['Low', 'Medium', 'High'];
     console.log('Sorting project: ' + projectName);
 
     // Sorts the array in place
@@ -69,9 +63,15 @@ function findTodo(id) {
     for (const project in tasks) {
         let todos = tasks[project];
         const match = todos.find((elem) => elem.id == id);
-        if (match) return match;
+        if (match) {
+            // Ensure that the match is an instance of Todo
+            if (!(match instanceof Todo)) {
+                return Object.assign(new Todo(), match);
+            }
+            return match; // Already an instance of Todo
+        }
     }
-    return 'No todo';
+    return null;
 }
 
 
@@ -86,4 +86,4 @@ function bindEvents() {
 
 }
 
-export { createProject, bindEvents, createTodo, tasks, normaliseTitle, removeTodo, findProjectName, findTodo, removeProject, sortTodos }
+export { createProject, bindEvents, createTodo, normaliseTitle, removeTodo, findProjectName, findTodo, removeProject, sortTodos }
