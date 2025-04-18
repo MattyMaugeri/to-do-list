@@ -30,7 +30,6 @@ function handleContentClick(event) {
             renderTodos(project);
             break;
         case 'sort-todo':
-            console.log('sorting!');
             Manager.sortTodos(closestBtn.id);
             break;
         case 'check-todo':

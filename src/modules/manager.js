@@ -14,7 +14,8 @@ function createProject(title) {
 }
 
 function createTodo(description, dueDate, priority) {
-    return new Todo(description, dueDate, priority);
+    const normalisedPriority = normaliseTitle(priority);
+    return new Todo(description, dueDate, normalisedPriority);
 }
 
 function removeTodo(todoID) {
@@ -31,15 +32,21 @@ function removeTodo(todoID) {
 }
 
 function sortTodos(project) {
+    console.log('sorting!');
     const projectName = normaliseTitle(project.split('-').pop());
 
     const priorityOrder = ['Low', 'Medium', 'High'];
-    console.log(projectName);
+    console.log('Tasks Object: ', tasks);
+    
+    console.log('Sorting project: ' + projectName);
+    console.log('Array before sort: ', tasks[projectName]);
 
     // Sorts the array in place
     tasks[projectName].sort((a, b) =>
         priorityOrder.indexOf(b.priority) - priorityOrder.indexOf(a.priority)
     );
+
+    console.log('Array after sort: ', tasks[projectName]);
 
     renderTodos(projectName);
 }
