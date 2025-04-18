@@ -101,7 +101,7 @@ function createListItem(todo) {
 
     const btn = document.createElement('button');
     btn.classList.add('delete-todo-btn');
-    btn.id = `delete-todo-${todo.id}`;
+    btn.dataset.todoId = todo.id;
     btn.dataset.action = 'delete-todo';
     btn.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="currentColor"> 
@@ -119,6 +119,11 @@ function createListItem(todo) {
 }
 
 function renderTodos(project) {
+    if (!project) {
+        console.error('renderTodos: Invalid project name');
+        return;
+    }
+    console.log('Rendering Todos');
     const projectID = `#${project.split(' ').join('-').toLowerCase()}`;
     const projectList = document.querySelector(`${projectID} > .section-two > .todo-list`);
 

@@ -20,8 +20,8 @@ function createTodo(description, dueDate, priority) {
 
 function removeTodo(todoID) {
     for (const project in tasks) {
-        const index = tasks[project].findIndex(item => item.id == todoID);
-        console.log(index);
+        const index = tasks[project].findIndex(item => item.id === todoID);
+        console.log('Index of todo to delete: ', index);
 
         if (index !== -1) {
             tasks[project].splice(index, 1);
@@ -32,21 +32,15 @@ function removeTodo(todoID) {
 }
 
 function sortTodos(project) {
-    console.log('sorting!');
     const projectName = normaliseTitle(project.split('-').pop());
 
-    const priorityOrder = ['Low', 'Medium', 'High'];
-    console.log('Tasks Object: ', tasks);
-    
+    const priorityOrder = ['Low', 'Medium', 'High'];    
     console.log('Sorting project: ' + projectName);
-    console.log('Array before sort: ', tasks[projectName]);
 
     // Sorts the array in place
     tasks[projectName].sort((a, b) =>
         priorityOrder.indexOf(b.priority) - priorityOrder.indexOf(a.priority)
     );
-
-    console.log('Array after sort: ', tasks[projectName]);
 
     renderTodos(projectName);
 }

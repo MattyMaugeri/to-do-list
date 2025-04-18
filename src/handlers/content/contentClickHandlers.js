@@ -14,22 +14,22 @@ function handleContentClick(event) {
 
     if (!closestBtn) return null;
 
-    const action = closestBtn.dataset.action;
-    const todoID = target.id.split('-').pop();
+    const action = closestBtn.dataset.action;    
+    const todoID = Number(closestBtn.dataset.todoId);
     const currentTodo = Manager.findTodo(todoID);
-    const project = Manager.findProjectName(todoID);    
+    const currentProject = Manager.findProjectName(todoID);    
 
     switch (action) {
         case 'add-todo':
             displayTodoForm(target);
             break;
-        case 'delete-todo':
-            const deleteBtnId = closestBtn.id.split('-').pop();
-            Manager.removeTodo(deleteBtnId);
-            console.log(Manager.tasks[project]);
-            renderTodos(project);
+        case 'delete-todo':        
+            Manager.removeTodo(todoID);
+            console.log(Manager.tasks[currentProject]);
+            renderTodos(currentProject);
             break;
         case 'sort-todo':
+            console.log('sorting!');
             Manager.sortTodos(closestBtn.id);
             break;
         case 'check-todo':
@@ -40,7 +40,6 @@ function handleContentClick(event) {
             viewTodoDetails(currentTodo);
             document.body.classList.add('blur');
             todoDialog.showModal();
-
             // Add id to dialog dataset
             todoDialog.dataset.todoId = currentTodo.id;
             break;
