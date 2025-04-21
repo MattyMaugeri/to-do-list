@@ -5,14 +5,12 @@ export function saveDataToLocalStorage(tasks) {
     loadDataFromLocalStorage();
 }
 
-export function loadDataFromLocalStorage() {    
-    const storedTasks = JSON.parse(localStorage.getItem('tasks'));
-    console.log('Loading Tasks from Local Storage', storedTasks);
+export function loadDataFromLocalStorage() {
+    const storedTasks = localStorage.getItem('tasks');
 
-    if (storedTasks) {
-        return storedTasks;
-    } else {
-        console.error('No stored tasks, please create new Projects and Todos');
-        return storedTasks = {};
-    }
+    return storedTasks
+        ? JSON.parse(storedTasks)
+        : {
+            'Personal': []
+        };
 }

@@ -20,11 +20,9 @@ function handleContentClick(event) {
 
     const action = closestBtn.dataset.action;
     const todoID = closestBtn.dataset.todoId;
-    console.log('TodoID: ', todoID);
-    
-    const currentTodo = Manager.findTodo(todoID);
-    console.log(currentTodo);
+    console.log('Todo ID: ', todoID);
 
+    const currentTodo = Manager.findTodo(todoID);
     const currentProject = Manager.findProjectName(todoID);
 
     switch (action) {
@@ -32,7 +30,7 @@ function handleContentClick(event) {
             displayTodoForm(target);
             break;
         case 'delete-todo':
-            Manager.removeTodo(Number(todoID));
+            Manager.removeTodo(todoID);
             console.log(tasks[currentProject]);
 
             saveDataToLocalStorage(tasks);  // Save to LS

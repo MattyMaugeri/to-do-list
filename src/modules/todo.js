@@ -1,8 +1,6 @@
 class Todo {
-    static todoID = 0;
-
     constructor (description, dueDate, priority) {
-        this.id = Todo.todoID++;
+        this.id = Date.now().toString() + Math.floor(Math.random() * 1000);
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;

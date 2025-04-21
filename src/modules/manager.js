@@ -62,15 +62,12 @@ function findProjectName(id) {
 function findTodo(id) {
     for (const project in tasks) {
         let todos = tasks[project];
-        const match = todos.find((elem) => elem.id == id);
+        const match = todos.find((elem) => elem.id === id);
         if (match) {
-            // Ensure that the match is an instance of Todo
-            if (!(match instanceof Todo)) {
-                return Object.assign(new Todo(), match);
-            }
-            return match; // Already an instance of Todo
+            return match;
         }
     }
+    console.error('No match found with provided ID: ', id);
     return null;
 }
 

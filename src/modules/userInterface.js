@@ -125,14 +125,15 @@ function renderTodos(project) {
         console.error('renderTodos: Invalid project name');
         return;
     }
-    console.log('Rendering Todos');
     const projectID = `#${project.split(' ').join('-').toLowerCase()}`;
     const projectList = document.querySelector(`${projectID} > .section-two > .todo-list`);
 
     if (projectList != null) {
+        console.log('Project list not null, clearing content and updating Todos!');
         projectList.textContent = '';
         tasks[project].forEach(todo => projectList.appendChild(createListItem(todo)));
     } else {
+        console.error('Not updating Todos :(', projectID, projectList);
         return;
     }
 
@@ -194,9 +195,7 @@ function displayTodoForm(target) {
     todoForm.classList.toggle('opened');
 }
 
-function createButton() {
-    console.log('Creating Button');
-    
+function createButton() {    
     const btn = document.createElement('button');
     btn.classList.add('add-todo-btn');
     btn.dataset.action = 'add-todo';
@@ -206,7 +205,6 @@ function createButton() {
 }
 
 function viewTodoDetails(todo) {
-    console.log(todo);
     const header = document.querySelector('.todo-display-header');
     header.textContent = todo.description;
 
@@ -217,11 +215,10 @@ function viewTodoDetails(todo) {
     priority.value = todo.priority;
 
     const notes = document.getElementById('notes');
-    notes.textContent = todo.notes;
+    notes.value = todo.notes;
 }
 
 function updateTodoDetails(todo) {
-    console.log(todo);
     const date = document.getElementById('todo-display-date').value;
     const priority = document.getElementById('todo-display-priority').value;
     const notes = document.getElementById('notes').value;
@@ -229,8 +226,6 @@ function updateTodoDetails(todo) {
     todo.dueDate = date;
     todo.priority = priority;
     todo.notes = notes;
-
-    console.log(todo);
 }
 
 

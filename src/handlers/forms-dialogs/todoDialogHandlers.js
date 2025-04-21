@@ -1,5 +1,5 @@
 import * as Manager from '../../modules/manager';
-import { updateTodoDetails, renderTodos } from '../../modules/userInterface';
+import { updateTodoDetails, renderTodos, renderProjects } from '../../modules/userInterface';
 
 import { saveDataToLocalStorage } from '../../modules/storage.js';
 import { tasks } from '../../main.js';
@@ -11,11 +11,11 @@ function handleTodoDialogSubmit(event) {
     event.preventDefault();
     // Grab Todo ID through dataset attribute 
     const todoId = todoDialog.dataset.todoId;
-    const currentTodo = Manager.findTodo(todoId);
+    const currentTodo = Manager.findTodo(todoId);    
     const project = Manager.findProjectName(todoId);
-
+    
     updateTodoDetails(currentTodo);
-
+    
     saveDataToLocalStorage(tasks);  // Save to LS
 
     renderTodos(project);
