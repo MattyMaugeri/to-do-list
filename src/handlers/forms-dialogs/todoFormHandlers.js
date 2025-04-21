@@ -1,7 +1,8 @@
 import * as Manager from '../../modules/manager';
 import { createButton, renderTodos } from '../../modules/userInterface';
-
 import { tasks } from '../../main';
+
+import { saveDataToLocalStorage } from '../../modules/storage.js';
 
 const todoForm = document.getElementById('add-todo-form');
 
@@ -31,6 +32,9 @@ function handleTodoFormSubmit(event) {
 
     // Clear content
     projectList.textContent = '';
+
+    saveDataToLocalStorage(tasks);  // Save to LS
+
 
     // Render the todo's to update card display
     renderTodos(project);

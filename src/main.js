@@ -1,15 +1,9 @@
 import './styles.css';
 import * as UI from './modules/userInterface.js';
-import * as Manager from './modules/manager.js';
-import { Todo } from './modules/todo.js';
+import { loadDataFromLocalStorage } from './modules/storage.js';
 
 
-const tasks = {
-    'Personal': [
-        new Todo('Clean Room', '1999-09-09', 'Low'),
-        new Todo('Wash Something', '1999-09-09', 'High'),
-    ]
-}
+const tasks = loadDataFromLocalStorage();
 
 UI.renderProjects();
 

@@ -4,10 +4,10 @@ import {
     createCard, viewAllProjects, addProjectDisplay, renderProjects, toggleSidebarHighlight
 }
     from '../modules/userInterface'
-
 import { tasks } from '../main.js';
-
 import { Todo } from '../modules/todo.js';
+
+import { saveDataToLocalStorage } from '../modules/storage.js';
 
 const content = document.querySelector('.content');
 const todoDialog = document.querySelector('#todo-dialog');
@@ -24,8 +24,6 @@ function handleContentClick(event) {
     
     const currentTodo = Manager.findTodo(todoID);
     console.log(currentTodo);
-    
-
 
     const currentProject = Manager.findProjectName(todoID);
 
@@ -36,16 +34,24 @@ function handleContentClick(event) {
         case 'delete-todo':
             Manager.removeTodo(Number(todoID));
             console.log(tasks[currentProject]);
+
+            saveDataToLocalStorage(tasks);  // Save to LS
+
             renderTodos(currentProject);
             break;
         case 'sort-todo':
             console.log('sorting!');
             Manager.sortTodos(closestBtn.id);
+
+            saveDataToLocalStorage(tasks);  // Save to LS
+
             break;
         case 'check-todo':
             if (currentTodo instanceof Todo) {
                 currentTodo.toggleComplete();
                 console.log('Todo toggled: ', currentTodo);
+
+                saveDataToLocalStorage(tasks);  // Save to LS
             } else {
                 console.error('currentTodo is still not a Todo instance:', currentTodo);
             }
@@ -58,6 +64,8 @@ function handleContentClick(event) {
             todoDialog.showModal();
             // Add id to dialog dataset
             todoDialog.dataset.todoId = currentTodo.id;
+
+            saveDataToLocalStorage(tasks);  // Save to LS
             break;
         default:
             break;
@@ -89,6 +97,9 @@ function handleSidebarClick(event) {
             console.log(target);
             const projectName = target.id;
             Manager.removeProject(projectName);
+
+            saveDataToLocalStorage(tasks);  // Save to LS
+
             renderProjects();
         default:
             break;

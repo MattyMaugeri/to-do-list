@@ -1,5 +1,8 @@
 import * as Manager from '../../modules/manager';
-import { updateTodoDetails, renderTodos } from '../../modules/userInterface'
+import { updateTodoDetails, renderTodos } from '../../modules/userInterface';
+
+import { saveDataToLocalStorage } from '../../modules/storage.js';
+import { tasks } from '../../main.js';
 
 const todoDialog = document.querySelector('#todo-dialog');
 
@@ -12,6 +15,9 @@ function handleTodoDialogSubmit(event) {
     const project = Manager.findProjectName(todoId);
 
     updateTodoDetails(currentTodo);
+
+    saveDataToLocalStorage(tasks);  // Save to LS
+
     renderTodos(project);
 
     todoDialog.close();

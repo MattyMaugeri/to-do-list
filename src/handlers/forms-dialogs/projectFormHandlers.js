@@ -1,6 +1,9 @@
 import * as Manager from '../../modules/manager';
 import { renderProjects } from '../../modules/userInterface';
 
+import { saveDataToLocalStorage } from '../../modules/storage.js';
+import { tasks } from '../../main.js';
+
 const projectDialog = document.querySelector('#project-dialog');
 const projectForm = document.querySelector('#project-form');
 
@@ -10,6 +13,9 @@ function handleProjectFormSubmit(event) {
     const title = document.getElementById('title').value;
 
     Manager.createProject(Manager.normaliseTitle(title));
+
+    saveDataToLocalStorage(tasks);  // Save to LS
+
     renderProjects();
     projectForm.reset();
     document.body.classList.remove('blur');
