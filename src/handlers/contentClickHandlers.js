@@ -3,10 +3,10 @@ import {
     displayTodoForm, renderTodos, viewTodoDetails,
     createCard, viewAllProjects, addProjectDisplay, renderProjects, toggleSidebarHighlight
 }
-    from '../modules/userInterface'
+    from '../modules/userInterface';
+
 import { tasks } from '../main.js';
 import { Todo } from '../modules/todo.js';
-
 import { saveDataToLocalStorage } from '../modules/storage.js';
 
 const content = document.querySelector('.content');
@@ -20,8 +20,6 @@ function handleContentClick(event) {
 
     const action = closestBtn.dataset.action;
     const todoID = closestBtn.dataset.todoId;
-    console.log('Todo ID: ', todoID);
-
     const currentTodo = Manager.findTodo(todoID);
     const currentProject = Manager.findProjectName(todoID);
 
@@ -32,37 +30,30 @@ function handleContentClick(event) {
         case 'delete-todo':
             Manager.removeTodo(todoID);
             console.log(tasks[currentProject]);
-
             saveDataToLocalStorage(tasks);  // Save to LS
-
             renderTodos(currentProject);
             break;
         case 'sort-todo':
             console.log('sorting!');
             Manager.sortTodos(closestBtn.id);
-
             saveDataToLocalStorage(tasks);  // Save to LS
-
             break;
         case 'check-todo':
+            console.log('Checking Todo: ', currentTodo);
             if (currentTodo instanceof Todo) {
                 currentTodo.toggleComplete();
-                console.log('Todo toggled: ', currentTodo);
-
                 saveDataToLocalStorage(tasks);  // Save to LS
             } else {
-                console.error('currentTodo is still not a Todo instance:', currentTodo);
+                console.error('currentTodo is not a Todo instance:', currentTodo);
             }
             break;
         case 'edit-todo':
             console.log('Editing Todo: ', currentTodo);
-            
             viewTodoDetails(currentTodo);
             document.body.classList.add('blur');
             todoDialog.showModal();
             // Add id to dialog dataset
             todoDialog.dataset.todoId = currentTodo.id;
-
             saveDataToLocalStorage(tasks);  // Save to LS
             break;
         default:
@@ -95,9 +86,7 @@ function handleSidebarClick(event) {
             console.log(target);
             const projectName = target.id;
             Manager.removeProject(projectName);
-
             saveDataToLocalStorage(tasks);  // Save to LS
-
             renderProjects();
         default:
             break;

@@ -1,9 +1,8 @@
+import { tasks } from '../main.js';
 import { handleTodoDialogSubmit, handleTodoDialogReset } from '../handlers/forms-dialogs/todoDialogHandlers.js';
 import { handleTodoFormSubmit, handleTodoFormReset } from '../handlers/forms-dialogs/todoFormHandlers.js';
 import { handleProjectFormSubmit, handleProjectFormReset } from '../handlers/forms-dialogs/projectFormHandlers.js';
 import { handleContentClick, handleSidebarClick } from '../handlers/contentClickHandlers.js';
-
-import { tasks } from '../main.js';
 
 const content = document.querySelector('.content');
 const sidebar = document.querySelector('.sidebar');
@@ -14,13 +13,14 @@ const projectDialog = document.querySelector('#project-dialog');
 const todoDialog = document.querySelector('#todo-dialog');
 const todoForm = document.getElementById('add-todo-form');
 
+const projectDiv = document.querySelector('.my-projects');
+const unorderedListDiv = document.createElement('ul');
+unorderedListDiv.classList.add('my-projects-list');
+projectDiv.appendChild(unorderedListDiv);
 
-function addProjectDisplay() {
-    document.body.classList.add('blur');
-    projectDialog.showModal();
-}
 
 function createCard(project) {
+
     const card = document.createElement('div');
     card.classList.add('card');
 
@@ -84,6 +84,7 @@ function createListItem(todo) {
     checkbox.dataset.action = 'check-todo';
     checkbox.dataset.todoId = todo.id;
     checkbox.type = 'checkbox';
+    checkbox.checked = todo.completed;
 
     const todoDetailsDiv = document.createElement('div');
     todoDetailsDiv.classList.add('todo-details');
@@ -120,40 +121,37 @@ function createListItem(todo) {
     return li;
 }
 
-function renderTodos(project) {
-    if (!project) {
-        console.error('renderTodos: Invalid project name');
-        return;
-    }
-    const projectID = `#${project.split(' ').join('-').toLowerCase()}`;
-    const projectList = document.querySelector(`${projectID} > .section-two > .todo-list`);
+function createButton() {    
 
-    if (projectList != null) {
-        console.log('Project list not null, clearing content and updating Todos!');
-        projectList.textContent = '';
-        tasks[project].forEach(todo => projectList.appendChild(createListItem(todo)));
-    } else {
-        console.error('Not updating Todos :(', projectID, projectList);
-        return;
-    }
+    const btn = document.createElement('button');
+    btn.classList.add('add-todo-btn');
+    btn.dataset.action = 'add-todo';
+    btn.textContent = 'Add New Task ...';
 
+    return btn;
+}
+
+function addProjectDisplay() {
+
+    document.body.classList.add('blur');
+    projectDialog.showModal();
 }
 
 function viewAllProjects() {
-    // Clear content
+    
     content.textContent = '';
 
     for (const project in tasks) {
         createCard(project);
+
+        // Clear Add Button section when viewing all Todos
+        const projectID = `#${project.split(' ').join('').toLowerCase()}`;
+        const sectionOne = document.querySelector(`${projectID} > .section-one`);
+        sectionOne.textContent = '';
+
         renderTodos(project);
     }
 }
-
-const projectDiv = document.querySelector('.my-projects');
-const unorderedListDiv = document.createElement('ul');
-
-unorderedListDiv.classList.add('my-projects-list');
-projectDiv.appendChild(unorderedListDiv);
 
 function renderProjects() {
     // Clear content
@@ -186,8 +184,8 @@ function renderProjects() {
     }
 }
 
-
 function displayTodoForm(target) {
+
     const sectionOne = target.parentElement;
     sectionOne.innerHTML = '';
 
@@ -195,16 +193,8 @@ function displayTodoForm(target) {
     todoForm.classList.toggle('opened');
 }
 
-function createButton() {    
-    const btn = document.createElement('button');
-    btn.classList.add('add-todo-btn');
-    btn.dataset.action = 'add-todo';
-    btn.textContent = 'Add New Task ...';
-
-    return btn;
-}
-
 function viewTodoDetails(todo) {
+
     const header = document.querySelector('.todo-display-header');
     header.textContent = todo.description;
 
@@ -219,6 +209,7 @@ function viewTodoDetails(todo) {
 }
 
 function updateTodoDetails(todo) {
+
     const date = document.getElementById('todo-display-date').value;
     const priority = document.getElementById('todo-display-priority').value;
     const notes = document.getElementById('notes').value;
@@ -228,6 +219,24 @@ function updateTodoDetails(todo) {
     todo.notes = notes;
 }
 
+function renderTodos(project) {
+
+    if (!project) {
+        console.error('renderTodos: Invalid project name');
+        return;
+    }
+    const projectID = `#${project.split(' ').join('-').toLowerCase()}`;
+    const projectList = document.querySelector(`${projectID} > .section-two > .todo-list`);
+
+    if (projectList != null) {
+        console.log('Project list not null, clearing content and updating Todos!');
+        projectList.textContent = '';
+        tasks[project].forEach(todo => projectList.appendChild(createListItem(todo)));
+    } else {
+        console.error('Not updating Todos :(', projectID, projectList);
+        return;
+    }
+}
 
 function toggleSidebarHighlight(target, className = 'clicked') {
     const allSidebarBtns = document.querySelectorAll('.sidebar-btn');

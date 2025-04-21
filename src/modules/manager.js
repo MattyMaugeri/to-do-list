@@ -7,6 +7,26 @@ function createProject(title) {
     console.log(tasks);
 }
 
+function removeProject(projectName) {
+    if (tasks[projectName] && projectName !== 'Personal') {
+        delete tasks[projectName];
+    } else {
+        console.error('Cant delete this');
+    }
+}
+
+function findProjectName(id) {
+    for (const project in tasks) {
+        let todos = tasks[project];
+        for (const property of todos) {
+            if (property.id == id) {
+                return project;
+            }
+        }
+    }
+    return null;
+}
+
 function createTodo(description, dueDate, priority) {
     const normalisedPriority = normaliseTitle(priority);
     return new Todo(description, dueDate, normalisedPriority);
@@ -25,40 +45,6 @@ function removeTodo(todoID) {
     return false;
 }
 
-function sortTodos(project) {
-    const projectName = normaliseTitle(project.split('-').pop());
-
-    const priorityOrder = ['Low', 'Medium', 'High'];
-    console.log('Sorting project: ' + projectName);
-
-    // Sorts the array in place
-    tasks[projectName].sort((a, b) =>
-        priorityOrder.indexOf(b.priority) - priorityOrder.indexOf(a.priority)
-    );
-
-    renderTodos(projectName);
-}
-
-function removeProject(projectName) {
-    if (tasks[projectName] && projectName !== 'Personal') {
-        delete tasks[projectName];
-    } else {
-        console.log('Cant delete this');
-    }
-}
-
-function findProjectName(id) {
-    for (const project in tasks) {
-        let todos = tasks[project];
-        for (const property of todos) {
-            if (property.id == id) {
-                return project;
-            }
-        }
-    }
-    return null;
-}
-
 function findTodo(id) {
     for (const project in tasks) {
         let todos = tasks[project];
@@ -71,8 +57,22 @@ function findTodo(id) {
     return null;
 }
 
+function sortTodos(project) {
+    const projectName = normaliseTitle(project.split('-').pop());
+
+    const priorityOrder = ['Low', 'Medium', 'High'];
+    console.log('Sorting project: ' + projectName);
+
+    tasks[projectName].sort((a, b) =>
+        priorityOrder.indexOf(b.priority) - priorityOrder.indexOf(a.priority)
+    );
+
+    renderTodos(projectName);
+}
+
 
 function normaliseTitle(string) {
+    // project-example -> Project
     return string
         .split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))

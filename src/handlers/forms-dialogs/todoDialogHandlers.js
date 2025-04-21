@@ -1,6 +1,5 @@
 import * as Manager from '../../modules/manager';
 import { updateTodoDetails, renderTodos, renderProjects } from '../../modules/userInterface';
-
 import { saveDataToLocalStorage } from '../../modules/storage.js';
 import { tasks } from '../../main.js';
 
@@ -8,7 +7,9 @@ const todoDialog = document.querySelector('#todo-dialog');
 
 
 function handleTodoDialogSubmit(event) {
+
     event.preventDefault();
+    
     // Grab Todo ID through dataset attribute 
     const todoId = todoDialog.dataset.todoId;
     const currentTodo = Manager.findTodo(todoId);    
