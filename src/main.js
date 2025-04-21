@@ -14,9 +14,5 @@ const tasks = {
 UI.renderProjects();
 
 UI.bindEvents();
-Manager.bindEvents();
-
-console.log(tasks);
-
 
 export { tasks }

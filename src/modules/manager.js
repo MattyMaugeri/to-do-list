@@ -82,8 +82,4 @@ function normaliseTitle(string) {
         .join(' ');
 }
 
-function bindEvents() {
-
-}
-
-export { createProject, bindEvents, createTodo, normaliseTitle, removeTodo, findProjectName, findTodo, removeProject, sortTodos }
+export { createProject, createTodo, normaliseTitle, removeTodo, findProjectName, findTodo, removeProject, sortTodos }

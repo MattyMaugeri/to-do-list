@@ -1,13 +1,13 @@
-import * as Manager from '../../modules/manager';
+import * as Manager from '../modules/manager.js';
 import {
     displayTodoForm, renderTodos, viewTodoDetails,
     createCard, viewAllProjects, addProjectDisplay, renderProjects, toggleSidebarHighlight
 }
-    from '../../modules/userInterface'
+    from '../modules/userInterface'
 
-import { tasks } from '../../main';
+import { tasks } from '../main.js';
 
-import { Todo } from '../../modules/todo';
+import { Todo } from '../modules/todo.js';
 
 const content = document.querySelector('.content');
 const todoDialog = document.querySelector('#todo-dialog');

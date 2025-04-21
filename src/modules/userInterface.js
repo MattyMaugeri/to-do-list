@@ -1,7 +1,7 @@
-import { handleTodoDialogSubmit, handleTodoDialogReset } from '../handlers/dialogs/todoDialogHandlers.js';
-import { handleTodoFormSubmit, handleTodoFormReset } from '../handlers/forms/todoFormHandlers.js';
-import { handleProjectFormSubmit, handleProjectFormReset } from '../handlers/forms/projectFormHandlers.js';
-import { handleContentClick, handleSidebarClick } from '../handlers/content/contentClickHandlers.js';
+import { handleTodoDialogSubmit, handleTodoDialogReset } from '../handlers/forms-dialogs/todoDialogHandlers.js';
+import { handleTodoFormSubmit, handleTodoFormReset } from '../handlers/forms-dialogs/todoFormHandlers.js';
+import { handleProjectFormSubmit, handleProjectFormReset } from '../handlers/forms-dialogs/projectFormHandlers.js';
+import { handleContentClick, handleSidebarClick } from '../handlers/contentClickHandlers.js';
 
 import { tasks } from '../main.js';
 
@@ -195,6 +195,8 @@ function displayTodoForm(target) {
 }
 
 function createButton() {
+    console.log('Creating Button');
+    
     const btn = document.createElement('button');
     btn.classList.add('add-todo-btn');
     btn.dataset.action = 'add-todo';
@@ -241,9 +243,6 @@ function toggleSidebarHighlight(target, className = 'clicked') {
     target.classList.add(className);
 }
 
-
-const todoCancelBtn = document.getElementById('todo-cancel-btn');
-
 function bindEvents() {
 
     content.addEventListener('click', handleContentClick);
@@ -253,9 +252,7 @@ function bindEvents() {
     todoDialog.addEventListener('submit', handleTodoDialogSubmit);
 
     todoForm.addEventListener('submit', handleTodoFormSubmit);
-
-    // needs to be todoForm('reset'); fix logic to 
-    todoCancelBtn.addEventListener('click', handleTodoFormReset);
+    todoForm.addEventListener('reset', handleTodoFormReset);
 
     projectForm.addEventListener('submit', handleProjectFormSubmit);
     projectForm.addEventListener('reset', handleProjectFormReset)

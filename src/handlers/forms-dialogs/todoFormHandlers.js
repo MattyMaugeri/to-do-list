@@ -36,12 +36,13 @@ function handleTodoFormSubmit(event) {
     renderTodos(project);
 }
 
-// Fix this logic
 function handleTodoFormReset(event) {
-    const parent = event.target.parentElement.parentElement;
+
+    const parent = event.target.parentElement;
+    console.log(parent);
+
     parent.textContent = '';
 
-    console.log(parent);
     parent.appendChild(createButton());
 
     todoForm.classList.toggle('opened');
