@@ -146,11 +146,15 @@ function viewAllProjects() {
     content.textContent = '';
 
     for (const project in tasks) {
-        createCard(project);
+        createCard(project);        
 
         // Clear Add Button section when viewing all Todos
-        const projectID = `#${project.split(' ').join('').toLowerCase()}`;
+        const projectID = `#${project.split(' ').join('-').toLowerCase()}`;
+        console.log('Project ID: ', projectID);
+        
         const sectionOne = document.querySelector(`${projectID} > .section-one`);
+        console.log('Section One: ', sectionOne);
+        
         sectionOne.textContent = '';
 
         renderTodos(project);
@@ -276,7 +280,14 @@ function bindEvents() {
     todoForm.addEventListener('reset', handleTodoFormReset);
 
     projectForm.addEventListener('submit', handleProjectFormSubmit);
-    projectForm.addEventListener('reset', handleProjectFormReset)
+    projectForm.addEventListener('reset', handleProjectFormReset);
+
+    // Listener to get rid of blur effect whenever Esc is clicked
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            document.body.classList.remove('blur');
+        }
+    })
 
 }
 

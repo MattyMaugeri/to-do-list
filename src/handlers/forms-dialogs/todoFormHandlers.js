@@ -6,9 +6,12 @@ import { saveDataToLocalStorage } from '../../modules/storage.js';
 const todoForm = document.getElementById('add-todo-form');
 
 function handleTodoFormSubmit(event) {
-
     event.preventDefault();
-    const project = Manager.normaliseTitle(event.target.parentElement.parentElement.id);
+    const project = Manager.normaliseTitle2(event.target.parentElement.parentElement.id);
+    console.log('Project Name: ', project);
+    console.log('Tasks Object: ', tasks);
+    
+    
 
     // grab the details submitted through the form
     const description = document.getElementById('description').value;
@@ -36,6 +39,7 @@ function handleTodoFormSubmit(event) {
 
     // Render the todo's to update card display
     renderTodos(project);
+
 }
 
 function handleTodoFormReset(event) {

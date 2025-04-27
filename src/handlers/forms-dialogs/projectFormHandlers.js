@@ -13,7 +13,7 @@ function handleProjectFormSubmit(event) {
     
     const title = document.getElementById('title').value;
 
-    Manager.createProject(Manager.normaliseTitle(title));
+    Manager.createProject(Manager.normaliseTitle(title));    
 
     saveDataToLocalStorage(tasks);  // Save to LS
 

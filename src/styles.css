@@ -76,8 +76,10 @@ h6 {
 
 :root {
     --tan: #fffaf0;
+    --tanner: hsl(46, 39%, 85%);
     --dark-tan: hsl(50, 40%, 50%);
     --darker-tan: hsl(50, 40%, 20%);
+    --hover: hsl(50, 40%, 70%);
 }
 
 * {
@@ -137,13 +139,13 @@ body {
 .sidebar>button:hover,
 .project-list-item:hover {
     cursor: pointer;
-    background-color: hsl(50, 40%, 75%);
+    background-color: var(--hover);
     transition: 0.3s ease;
 }
 
 .sidebar-btn.clicked,
 .project-list-item.clicked {
-    background-color: hsl(50, 40%, 75%);
+    background-color: var(--hover);
     border-left: 8px solid hsl(50, 40%, 50%);
 }
 
@@ -187,11 +189,12 @@ body {
     border: none;
     border-radius: 8px;
     padding: 0.8rem 0;
+    background-color: var(--tanner);
 }
 
 .add-todo-btn:hover {
     cursor: pointer;
-    background-color: hsl(50, 40%, 75%);
+    background-color: var(--hover);
     transition: 0.3s ease;
 }
 
@@ -231,14 +234,14 @@ body {
 }
 
 #add-todo-form>button {
-    background-color: hsl(46, 39%, 80%);
+    background-color: var(--tanner);
     border: none;
     border-radius: 0.5rem;
     transition: 0.3s ease;
 }
 
 #add-todo-form>button:hover {
-    background-color: hsl(40, 40%, 60%);
+    background-color: var(--hover);
 }
 
 .todo-list {
@@ -266,9 +269,11 @@ body {
 }
 
 .todo-list-item.completed {
+    transition: 0.5 s ease-in-out;
     text-decoration: line-through;
     color: grey;
-    opacity: 0.8;
+    opacity: 0.6;
+    box-shadow: none;
 }
 
 
@@ -391,7 +396,7 @@ body {
 .dialog-project-buttons>button,
 .todo-dialog-buttons>button {
     width: 100%;
-    background-color: hsl(46, 39%, 80%);
+    background-color: var(--tanner);
     border: none;
     border-radius: 0.5rem;
     padding: 0.5rem 0;
@@ -402,7 +407,7 @@ body {
 .dialog-project-buttons>button:hover,
 .todo-dialog-buttons>button:hover {
     cursor: pointer;
-    background-color: hsl(40, 40%, 60%);
+    background-color: var(--hover);
 }
 
 .todo-display-header {
@@ -424,11 +429,12 @@ textarea {
     border-radius: 8px;
     padding: 0.2rem 0.8rem;
     gap: 5px;
+    background-color: var(--tanner);
 }
 
 .sort-btn:hover {
     cursor: pointer;
-    background-color: hsl(50, 40%, 75%);
+    background-color: var(--hover);
     transition: 0.3s ease;
 }
 

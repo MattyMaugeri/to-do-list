@@ -75,6 +75,8 @@ function handleSidebarClick(event) {
         case 'view-project':
             content.textContent = '';
             const project = target.id;
+            console.log('Project ID: ', Manager.normaliseTitle(project));
+            
             toggleSidebarHighlight(target);
             createCard(project);
             renderTodos(project);

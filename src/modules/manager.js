@@ -58,7 +58,7 @@ function findTodo(id) {
 }
 
 function sortTodos(project) {
-    const projectName = normaliseTitle(project.split('-').pop());
+    const projectName = extractProjectNameFromID(project);    
 
     const priorityOrder = ['Low', 'Medium', 'High'];
     console.log('Sorting project: ' + projectName);
@@ -74,9 +74,24 @@ function sortTodos(project) {
 function normaliseTitle(string) {
     // project-example -> Project
     return string
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+}
+
+function normaliseTitle2(string) {
+    // project-example -> Project
+    return string
         .split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
 }
 
-export { createProject, createTodo, normaliseTitle, removeTodo, findProjectName, findTodo, removeProject, sortTodos }
+function extractProjectNameFromID(str) {
+    return str
+    .split('-')
+    .splice(2)
+    .join(' ');
+}
+
+export { createProject, createTodo, normaliseTitle, removeTodo, findProjectName, findTodo, removeProject, sortTodos, normaliseTitle2 }
