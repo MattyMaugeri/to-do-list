@@ -97,6 +97,7 @@ function createListItem(todo) {
 
     const li = document.createElement('li');
     li.classList.add('todo-list-item');
+    li.id = todo.id;
 
     const dateSpan = document.createElement('span');
     dateSpan.textContent = todo.dueDate;
@@ -223,7 +224,6 @@ function updateTodoDetails(todo) {
 }
 
 function renderTodos(project) {
-
     if (!project) {
         console.error('renderTodos: Invalid project name');
         return;
@@ -232,9 +232,12 @@ function renderTodos(project) {
     const projectList = document.querySelector(`${projectID} > .section-two > .todo-list`);
 
     if (projectList != null) {
-        console.log('Project list not null, clearing content and updating Todos!');
         projectList.textContent = '';
-        tasks[project].forEach(todo => projectList.appendChild(createListItem(todo)));
+
+        tasks[project].forEach(todo =>  {
+            projectList.appendChild(createListItem(todo));
+            toggleCheckedTodo(todo);
+    });
     } else {
         console.error('Not updating Todos :(', projectID, projectList);
         return;
@@ -244,10 +247,21 @@ function renderTodos(project) {
 function toggleSidebarHighlight(target, className = 'clicked') {
     const allSidebarBtns = document.querySelectorAll('.sidebar-btn');
     const allProjects = document.querySelectorAll('.project-list-item');
-    
+
+    // Merge all sidebar clickeable objects (buttons & projects), filter through them all and remove 'clicked' class
     [...allSidebarBtns, ...allProjects].forEach(el => el.classList.remove(className));
 
+    // Add 'clicked' class for CSS styling
     target.classList.add(className);
+}
+
+function toggleCheckedTodo(todo, className = 'completed') {
+    const li = document.getElementById(todo.id);
+    if (todo.completed) {
+        li.classList.add(className);
+    } else {
+        li.classList.remove(className);
+    }
 }
 
 function bindEvents() {
@@ -269,5 +283,5 @@ function bindEvents() {
 
 export {
     addProjectDisplay, bindEvents, renderProjects, renderTodos, updateTodoDetails,
-    createButton, viewTodoDetails, createCard, viewAllProjects, displayTodoForm, toggleSidebarHighlight
+    createButton, viewTodoDetails, createCard, viewAllProjects, displayTodoForm, toggleSidebarHighlight, toggleCheckedTodo
 };

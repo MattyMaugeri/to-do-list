@@ -1,7 +1,7 @@
 import * as Manager from '../modules/manager.js';
 import {
     displayTodoForm, renderTodos, viewTodoDetails,
-    createCard, viewAllProjects, addProjectDisplay, renderProjects, toggleSidebarHighlight
+    createCard, viewAllProjects, addProjectDisplay, renderProjects, toggleSidebarHighlight, toggleCheckedTodo
 }
     from '../modules/userInterface';
 
@@ -42,6 +42,10 @@ function handleContentClick(event) {
             console.log('Checking Todo: ', currentTodo);
             if (currentTodo instanceof Todo) {
                 currentTodo.toggleComplete();
+
+                // Logic to apply CSS styling on checked todo goes below here
+                toggleCheckedTodo(currentTodo);
+
                 saveDataToLocalStorage(tasks);  // Save to LS
             } else {
                 console.error('currentTodo is not a Todo instance:', currentTodo);

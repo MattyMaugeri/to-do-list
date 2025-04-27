@@ -245,13 +245,32 @@ body {
     padding: 0;
     margin: 0;
     list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .todo-list-item {
     display: flex;
     align-items: center;
     text-align: center;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 0.3rem 0.8rem;
 }
+
+.todo-list-item:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    transition: 0.2s ease;
+}
+
+.todo-list-item.completed {
+    text-decoration: line-through;
+    color: grey;
+    opacity: 0.8;
+}
+
 
 .todo-details {
     display: flex;

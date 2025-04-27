@@ -23,7 +23,6 @@ export function loadDataFromLocalStorage() {
                 t.notes = todo.notes;
                 
                 return t;
-                
             })
         }
         return tasks;
