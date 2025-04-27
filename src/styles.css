@@ -149,6 +149,16 @@ body {
 
 #add-project-btn {
     margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+#add-project-icon {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    border-radius: 50%;
 }
 
 .content {
@@ -175,7 +185,8 @@ body {
 .add-todo-btn {
     width: 100%;
     border: none;
-    padding: 0.5rem 0;
+    border-radius: 8px;
+    padding: 0.8rem 0;
 }
 
 .add-todo-btn:hover {
@@ -192,13 +203,18 @@ body {
     display: grid;
     grid-template-columns: 0.4fr 0.2fr 0.2fr 0.1fr 0.1fr;
     gap: 8px;
+
+    border: none;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    padding: 1rem;
 }
 
 #add-todo-form > * {
     border: none;
     border-radius: 0.5rem;
     border: 1px solid #ccc;
-    padding: 0.5rem;
+    padding: 0.2rem 0.5rem;
 }
 
 #add-todo-form > *:hover {
@@ -242,6 +258,19 @@ body {
     align-items: center;
     justify-content: space-between;
     flex: 1;
+    padding: 0.2rem;
+}
+
+.todo-details > * {
+    flex: 1;
+}
+
+.todo-details >:first-child {
+    text-align: start;
+}
+
+.todo-details >:last-child {
+    text-align: end;
 }
 
 .todo-details:hover {
@@ -285,9 +314,29 @@ body {
     flex-direction: column;
 }
 
-.delete-project-btn:hover,
-.delete-todo-btn:hover {
+.delete-todo-btn,
+.delete-project-btn {
+    border: none;
+    background-color: white;
+}
+
+.delete-project-btn {
+    background-color: var(--tan);
+}
+
+.delete-todo-btn:hover,
+.delete-project-btn:hover {
     cursor: pointer;
+}
+
+.delete-project-btn:hover {
+    background-color: var(--tan);
+}
+
+.delete-project-btn:hover svg path,
+.delete-todo-btn:hover svg path {
+    transition: 0.4s ease;
+    color: red;
 }
 
 #project-dialog, #todo-dialog {
@@ -346,9 +395,22 @@ textarea {
     min-height: 150px;
 }
 
-.sort-div {
+
+.sort-btn {
     display: flex;
-    justify-content: flex-end;
+    align-items: baseline;
+    margin: 0.6rem 0;
+    margin-left: auto;
+    border: none;
+    border-radius: 8px;
+    padding: 0.2rem 0.8rem;
+    gap: 5px;
+}
+
+.sort-btn:hover {
+    cursor: pointer;
+    background-color: hsl(50, 40%, 75%);
+    transition: 0.3s ease;
 }
 
 

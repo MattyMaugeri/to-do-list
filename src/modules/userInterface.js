@@ -52,7 +52,7 @@ function createCard(project) {
     sortBtn.classList.add('sort-btn');
     sortBtn.id = `sort-btn-${project.split(' ').join('-')}`;
     sortBtn.dataset.action = 'sort-todo';
-    sortBtn.textContent = 'Sort by';
+    sortBtn.textContent = 'Sort';
 
     const sortIcon = document.createElement('div');
     sortIcon.innerHTML = `
@@ -64,7 +64,7 @@ function createCard(project) {
     sortIcon.id = `sort-icon-${project.split(' ').join('-').toLowerCase()}`
 
     sortDiv.appendChild(sortBtn);
-    sortDiv.appendChild(sortIcon);
+    sortBtn.appendChild(sortIcon);
     sectionTwo.appendChild(sortDiv);
 
     sectionTwo.appendChild(ul);
@@ -92,9 +92,11 @@ function createListItem(todo) {
     todoDetailsDiv.dataset.action = 'edit-todo';
     todoDetailsDiv.dataset.todoId = todo.id;
 
+    const textSpan = document.createElement('span');
+    textSpan.textContent = todo.description;
+
     const li = document.createElement('li');
     li.classList.add('todo-list-item');
-    todoDetailsDiv.textContent = todo.description;
 
     const dateSpan = document.createElement('span');
     dateSpan.textContent = todo.dueDate;
@@ -115,6 +117,7 @@ function createListItem(todo) {
     li.prepend(todoDetailsDiv);
     li.prepend(checkbox);
     li.append(btn);
+    todoDetailsDiv.appendChild(textSpan);
     todoDetailsDiv.appendChild(dateSpan);
     todoDetailsDiv.appendChild(prioritySpan);
 
