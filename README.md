@@ -30,7 +30,7 @@ Through this project, I practiced:
 
 ## ✨ Features
 
-- Create, edit, delete tasks
+- Create, edit, delete, sort tasks
 - Mark tasks as complete
 - Organize tasks by projects
 - Persist tasks using `localStorage`
