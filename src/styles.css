@@ -174,11 +174,14 @@ body {
 
 .add-todo-btn {
     width: 100%;
-    text-align: start;
+    border: none;
+    padding: 0.5rem 0;
 }
 
 .add-todo-btn:hover {
     cursor: pointer;
+    background-color: hsl(50, 40%, 75%);
+    transition: 0.3s ease;
 }
 
 #add-todo-form {
@@ -186,8 +189,40 @@ body {
 }
 
 #add-todo-form.opened {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 0.4fr 0.2fr 0.2fr 0.1fr 0.1fr;
+    gap: 8px;
+}
+
+#add-todo-form > * {
+    border: none;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+}
+
+#add-todo-form > *:hover {
+    cursor: pointer;
+}
+
+#add-todo-form >input:nth-of-type(-n+2) {
+    cursor: text;
+}
+
+#add-todo-form > *:focus-within {
+    outline: none;
+    border: 2px solid var(--dark-tan);
+}
+
+#add-todo-form>button {
+    background-color: hsl(46, 39%, 80%);
+    border: none;
+    border-radius: 0.5rem;
+    transition: 0.3s ease;
+}
+
+#add-todo-form>button:hover {
+    background-color: hsl(40, 40%, 60%);
 }
 
 .todo-list {
