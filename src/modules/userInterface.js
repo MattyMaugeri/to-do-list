@@ -18,6 +18,7 @@ const unorderedListDiv = document.createElement('ul');
 unorderedListDiv.classList.add('my-projects-list');
 projectDiv.appendChild(unorderedListDiv);
 
+// My ID allocation is pretty inconsistent, need to fix it up (use dataset or something)
 
 function createCard(project) {
 
@@ -125,16 +126,6 @@ function createListItem(todo) {
     return li;
 }
 
-function createButton() {    
-
-    const btn = document.createElement('button');
-    btn.classList.add('add-todo-btn');
-    btn.dataset.action = 'add-todo';
-    btn.textContent = 'Add New Task ...';
-
-    return btn;
-}
-
 function addProjectDisplay() {
 
     document.body.classList.add('blur');
@@ -142,19 +133,15 @@ function addProjectDisplay() {
 }
 
 function viewAllProjects() {
-    
+    // Clear content first
     content.textContent = '';
 
     for (const project in tasks) {
         createCard(project);        
 
-        // Clear Add Button section when viewing all Todos
-        const projectID = `#${project.split(' ').join('-').toLowerCase()}`;
-        console.log('Project ID: ', projectID);
-        
+        // Clear the 'Add Button' section when viewing all Todos
+        const projectID = `#${project.split(' ').join('-').toLowerCase()}`;        
         const sectionOne = document.querySelector(`${projectID} > .section-one`);
-        console.log('Section One: ', sectionOne);
-        
         sectionOne.textContent = '';
 
         renderTodos(project);
@@ -243,9 +230,19 @@ function renderTodos(project) {
             toggleCheckedTodo(todo);
     });
     } else {
-        console.error('Not updating Todos :(', projectID, projectList);
+        console.error('Not updating Todos ..', projectID, projectList);
         return;
     }
+}
+
+function createButton() {    
+
+    const btn = document.createElement('button');
+    btn.classList.add('add-todo-btn');
+    btn.dataset.action = 'add-todo';
+    btn.textContent = 'Add New Task ...';
+
+    return btn;
 }
 
 function toggleSidebarHighlight(target, className = 'clicked') {
@@ -255,7 +252,7 @@ function toggleSidebarHighlight(target, className = 'clicked') {
     // Merge all sidebar clickeable objects (buttons & projects), filter through them all and remove 'clicked' class
     [...allSidebarBtns, ...allProjects].forEach(el => el.classList.remove(className));
 
-    // Add 'clicked' class for CSS styling
+    // Add 'clicked' class on target for CSS styling
     target.classList.add(className);
 }
 
@@ -282,7 +279,7 @@ function bindEvents() {
     projectForm.addEventListener('submit', handleProjectFormSubmit);
     projectForm.addEventListener('reset', handleProjectFormReset);
 
-    // Listener to get rid of blur effect whenever Esc is clicked
+    // Listener to get rid of blur effect whenever 'Esc' key is clicked
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
             document.body.classList.remove('blur');

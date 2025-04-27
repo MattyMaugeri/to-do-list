@@ -58,10 +58,10 @@ function findTodo(id) {
 }
 
 function sortTodos(project) {
-    const projectName = extractProjectNameFromID(project);    
+    // Converts 'sort-btn-My-Project' --> 'My Project'
+    const projectName = extractProjectNameForSorting(project); 
 
     const priorityOrder = ['Low', 'Medium', 'High'];
-    console.log('Sorting project: ' + projectName);
 
     tasks[projectName].sort((a, b) =>
         priorityOrder.indexOf(b.priority) - priorityOrder.indexOf(a.priority)
@@ -70,9 +70,10 @@ function sortTodos(project) {
     renderTodos(projectName);
 }
 
+// Definitely need to work on my naming/ID system as the 3 below functions are bad
 
 function normaliseTitle(string) {
-    // project-example -> Project
+    // Converts 'project example' -> 'Project Example'
     return string
         .split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -80,14 +81,14 @@ function normaliseTitle(string) {
 }
 
 function normaliseTitle2(string) {
-    // project-example -> Project
+    // Converts 'project-example' -> 'Project Example'
     return string
         .split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
 }
 
-function extractProjectNameFromID(str) {
+function extractProjectNameForSorting(str) {
     return str
     .split('-')
     .splice(2)
