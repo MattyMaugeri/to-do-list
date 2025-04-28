@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <title>To-Do List</title>
+<script defer src="main.js"></script></head>
+
+<body>
+
+    <div class="sidebar">
+        <h1 class="title">To Do List</h1>
+
+        <button class="sidebar-btn" id="view-all-projects-btn" data-action="view-all-projects">
+            View All Projects
+        </button>
+
+        <div class="my-projects">
+            <h3>My Projects</h3>
+        </div>
+
+        <button class="sidebar-btn" id="add-project-btn" data-action="add-project">
+            Add Project
+            <div id="add-project-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="18" height="18"
+                    fill="currentColor">
+                    <path
+                        d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
+                </svg>
+            </div>
+
+        </button>
+
+    </div>
+
+    <div class="content">
+
+    </div>
+
+    <dialog id="project-dialog">
+        <form id="project-form">
+            <div class="dialog-project-title">
+                <input type="text" id="title" name="title" placeholder="Enter Project Title">
+            </div>
+            <div class="dialog-project-buttons">
+                <button type="submit" class="dialog-btns" id="dialog-add-btn">Add</button>
+                <button type="reset" class="dialog-btns" id="dialog-cancel-btn">Cancel</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="todo-dialog">
+        <form id="todo-display-form">
+            <h3 class="todo-display-header"></h3>
+
+            <label for="todo-display-date">Due Date:</label>
+            <input type="date" name="todo-display-date" id="todo-display-date">
+
+            <label for="todo-display-priority">Priority:</label>
+            <select name="todo-display-priority" id="todo-display-priority">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+
+            <label for="notes">Notes:</label>
+            <textarea name="notes" id="notes" maxlength="400"></textarea>
+
+            <div class="todo-dialog-buttons">
+                <button type="submit" id="todo-dialog-submit-btn">Save</button>
+                <button type="reset" id="todo-dialog-cancel-btn">Cancel</button>
+            </div>
+
+        </form>
+    </dialog>
+
+
+    <form id="add-todo-form">
+        <input type="text" name="description" id="description" placeholder="Task Title ..." required>
+        <input type="date" name="date" id="date" required>
+        <select name="priority" id="priority-select">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+        <button type="submit" id="todo-submit-btn">Add</button>
+        <button type="reset" id="todo-cancel-btn">Cancel</button>
+    </form>
+
+</body>
+
+</html>
