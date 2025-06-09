@@ -59,7 +59,7 @@ Through this project, I practiced:
     ```
 3. Start the app:
     ```bash
-    npm run start
+    npm run dev
     ```
     
 ---
